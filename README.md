@@ -1,4 +1,4 @@
-# Catascan: Cataract Detection Using Images
+# Catascan: Cataract Detection Using Images Taken
 
 ## Table of Contents
 - [Overview](#overview)
