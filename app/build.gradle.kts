@@ -10,7 +10,10 @@ android {
     defaultConfig {
         applicationId = "com.capstone.catascan"
         minSdk = 24
+
+        //noinspection OldTargetApi
         targetSdk = 34
+
         versionCode = 1
         versionName = "1.0"
 
@@ -35,6 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        mlModelBinding = true
     }
 }
 
@@ -48,4 +52,25 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    // for navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    // for circle imageView
+    implementation(libs.circleimageview)
+    
+    // for set image on imageView
+    implementation(libs.glide)
+
+    // for camera
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.camera.lifecycle)
+    implementation(libs.camera.view)
+
+    // for tflite
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
+    implementation(libs.tensorflow.lite.task.vision)
 }
