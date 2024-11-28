@@ -1,3 +1,64 @@
+<!--<resources>-->
+<!--    <string name="app_name">Catascan</string>-->
+<!--    <string name="profile">Profile</string>-->
+<!--    <string name="scan">Scan</string>-->
+<!--    <string name="history">History</string>-->
+<!--    <string name="home">Home</string>-->
+<!--    <string name="say_hi_to">Hi, %s!</string>-->
+<!--    <string name="email">%s</string>-->
+<!--    <string name="notification">Notification</string>-->
+<!--    <string name="dark_mode">Dark Mode</string>-->
+
+
+<!--    <string name="logout">Logout</string>-->
+<!--    <string name="preview_or_result">%s</string>-->
+<!--    <string name="recent">Recent</string>-->
+<!--    <string name="result">This eye is diagnosed as %s with an confidence score of %s.\n%s</string>-->
+<!--    <string name="infor_normal">"An normal eye means this eye have no signs of cataract"</string>-->
+<!--    <string name="info_mature">A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.</string>-->
+<!--    <string name="info_immature">An immature cataract is an early stage of a clouding of the eyes lens that can cause vision problems.</string>-->
+<!--    <string name="date">%s</string>-->
+
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+<!--</resources>-->
+
+<!--<resources>-->
+<!--    <string name="app_name">Catascan</string>-->
+<!--    <string name="profile">Profile</string>-->
+<!--    <string name="scan">Scan</string>-->
+<!--    <string name="history">History</string>-->
+<!--    <string name="home">Home</string>-->
+<!--    <string name="say_hi_to">Hi, %s!</string>-->
+<!--    <string name="email">%s</string>-->
+<!--    <string name="notification">Notification</string>-->
+<!--    <string name="dark_mode">Dark Mode</string>-->
+
+
+<!--    <string name="dummy">dummy</string>-->
+<!--    <string name="logout">Logout</string>-->
+<!--    <string name="preview_or_result">%s</string>-->
+<!--    <string name="recent">Recent</string>-->
+<!--    <string name="infor_normal">-->
+<!--        <![CDATA[-->
+<!--        This eye is <font color="#1F7BBF"><b>normal</b></font> with an confidence score of <font color="#1F7BBF"><b>%s</b></font> it means this eye have <font color="#1F7BBF"><b>no sign of cataract</b></font>.-->
+<!--        ]]>-->
+<!--    </string>-->
+<!--    <string name="info_mature">-->
+<!--        <![CDATA[-->
+<!--        This eye is diagnosed as a <font color="#FA5548"><b>mature cataract</b></font> with an confidence score of <font color="#FA5548"><b>%s</b></font>. A <font color="#FA5548"><b>mature cataract</b></font> is a <font color="#FA5548"><b>cataract</b></font> that has developed to an <font color="#FA5548"><b>advanced stage</b></font>, where the lens of the eye is opaque and dense, and vision is <font color="#FA5548"><b>severely impaired</b></font>.-->
+<!--        ]]>-->
+<!--    </string>-->
+
+<!--    <string name="info_immature">-->
+<!--        <![CDATA[-->
+<!--        This eye is diagnosed as an <font color="#F0BC18"><b>immature cataract</b></font> with an confidence score of <font color="#F0BC18"><b>%s</b></font>. An <font color="#F0BC18"><b>immature cataract</b></font> is an early stage of a <font color="#F0BC18"><b>cataract</b></font>, where the lens of the eyes is clouding that can cause <font color="#F0BC18"><b>vision problems</b></font>.-->
+<!--        ]]>-->
+<!--    </string>-->
+<!--    <string name="date">%s</string>-->
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+<!--</resources>-->
+
+
 <resources>
     <string name="app_name">Catascan</string>
     <string name="profile">Profile</string>
@@ -10,14 +71,20 @@
     <string name="dark_mode">Dark Mode</string>
 
 
+    <string name="dummy">dummy</string>
     <string name="logout">Logout</string>
     <string name="preview_or_result">%s</string>
     <string name="recent">Recent</string>
-    <string name="result">This eye is diagnosed as %s with an confidence score of %s.\n%s</string>
-    <string name="infor_normal">"An normal eye means this eye have no signs of cataract"</string>
-    <string name="info_mature">A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.</string>
-    <string name="info_immature">An immature cataract is an early stage of a clouding of the eyes lens that can cause vision problems.</string>
-    <string name="date">%s</string>
+    <string name="infor_normal">
+        This eye is normal with an confidence score of %s it means this eye have no sign of cataract.
+    </string>
+    <string name="info_mature">
+        This eye is diagnosed as a mature cataract with an confidence score of %s. A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.
+    </string>
 
+    <string name="info_immature">
+        This eye is diagnosed as an immature cataract with an confidence score of %s. An immature cataract is an early stage of a cataract, where the lens of the eyes is clouding that can cause vision problems.
+    </string>
+    <string name="date">%s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

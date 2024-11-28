@@ -1,18 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp") version "1.9.22-1.0.17"
+    id("kotlin-parcelize")
 }
 
 android {
     namespace = "com.capstone.catascan"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.capstone.catascan"
         minSdk = 24
 
         //noinspection OldTargetApi
-        targetSdk = 34
+        targetSdk = 35
 
         versionCode = 1
         versionName = "1.0"
@@ -29,13 +31,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         viewBinding = true
         mlModelBinding = true
@@ -73,4 +78,25 @@ dependencies {
     implementation(libs.tensorflow.lite.support)
     implementation(libs.tensorflow.lite.metadata)
     implementation(libs.tensorflow.lite.task.vision)
+
+    // for datastore
+    implementation(libs.androidx.datastore.preferences)
+
+    // for live data
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // for view model
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // for work
+    implementation(libs.androidx.work.runtime)
+
+    // for retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // for room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler.v251)
 }

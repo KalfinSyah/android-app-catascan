@@ -4,9 +4,9 @@
 
     <!-- Gradient color -->
     <gradient
-        android:startColor="#FFFFFFFF"
-        android:centerColor="#80B8D6"
-        android:endColor="#1F7BBF"
+        android:startColor="@color/profile_gradient_top"
+        android:centerColor="@color/profile_gradient_middle"
+        android:endColor="@color/profile_gradient_bottom"
         android:angle="270" />
 
     <!-- Rounded corners -->

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgorund"
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/say_hi_to"
-                        android:textColor="@color/white"
+                        android:textColor="@color/profile_name"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         tools:ignore="TextContrastCheck" />
@@ -71,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:text="@string/email"
-                        android:textColor="@color/white"
+                        android:textColor="@color/profile_email"
                         android:textSize="12sp"
                         tools:ignore="TextContrastCheck" />
                 </LinearLayout>
@@ -143,11 +144,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:textColor="@color/setting_item"
                     android:text="@string/notification" />
             </LinearLayout>
 
             <Switch
-                android:id="@+id/switch1"
+                android:id="@+id/notification"
                 android:thumbTint="@color/color_switch_track"
                 android:trackTint="@color/color_switch_thumb"
                 android:layout_width="0dp"
@@ -190,11 +192,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:textColor="@color/setting_item"
                     android:text="@string/dark_mode" />
             </LinearLayout>
 
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/darkMode"
                 android:thumbTint="@color/color_switch_track"
                 android:trackTint="@color/color_switch_thumb"
                 android:layout_width="0dp"
@@ -216,7 +219,9 @@
             android:text="@string/logout"
             android:textStyle="bold"
             android:elevation="8dp"
-            android:translationZ="4dp"
+            app:elevation="8dp"
+            app:cornerRadius="40dp"
+            android:textColor="@color/button_logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="@+id/linearLayout3"

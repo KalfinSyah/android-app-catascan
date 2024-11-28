@@ -4,12 +4,14 @@ import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.text.Spannable
 import android.text.SpannableString
-import android.text.Spanned
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import java.io.File
 import java.text.SimpleDateFormat
@@ -37,44 +39,70 @@ object Utils {
         return File.createTempFile(timeStamp, ".jpg", filesDir)
     }
 
-    fun setAndGetTextAndSetColorText(context: Context, text: String, confidence: String, rColor: Int): SpannableString {
-        val info: String = when (text) {
-            "immature cataract" -> {
-                context.getString(R.string.info_immature)
-            }
-            "mature cataract" -> {
-                context.getString(R.string.info_mature)
-            }
-            else -> {
-                context.getString(R.string.infor_normal)
-            }
-        }
-
-        // Get the base string
-        val baseText = context.getString(R.string.result, text, confidence, info)
-
-        val spannable = SpannableString(baseText)
-
-        // Apply color to the 'text' part
-        val startIndexText = baseText.indexOf(text)
-        val endIndexText = startIndexText + text.length
-        val colorText = ContextCompat.getColor(context, rColor) // Define color for 'text' in colors.xml
-        val colorSpanText = ForegroundColorSpan(colorText)
-        spannable.setSpan(colorSpanText, startIndexText, endIndexText, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        // Apply color to the 'confidence' part
-        val startIndexConfidence = baseText.indexOf(confidence)
-        val endIndexConfidence = startIndexConfidence + confidence.length
-        val colorConfidence = ContextCompat.getColor(context, rColor) // Define color for 'confidence' in colors.xml
-        val colorSpanConfidence = ForegroundColorSpan(colorConfidence)
-        spannable.setSpan(colorSpanConfidence, startIndexConfidence, endIndexConfidence, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        // return the SpannableString to the TextView
-        return spannable
+    fun formatDateTime(dateTimeString: String): String {
+        val inputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
+        val outputFormatter = SimpleDateFormat("MMMM dd, yyyy, 'at' h:mm a", Locale.getDefault())
+        val date = inputFormatter.parse(dateTimeString)!!
+        return outputFormatter.format(date)
     }
 
+    fun resultCustomStyling(context: Context, resultTemplate: String, vararg args: String): Spannable {
+        val resultText = if (args.isEmpty()) resultTemplate else String.format(resultTemplate, *args)
+
+        // Create a SpannableString from resultText
+        val spannable = SpannableString(resultText)
+
+
+        val yellow = ContextCompat.getColor(context, R.color.yellow)
+        val red = ContextCompat.getColor(context, R.color.red)
+        val blue = ContextCompat.getColor(context, R.color.blue)
+
+        val percentRegex = "\\d+(\\.\\d+)?%".toRegex()
+        percentRegex.findAll(resultText).forEach { match ->
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
+            // make it bold for percent numbers
+            spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+        }
+
+        // Check if the result contains the word "normal"
+        if (resultText.contains("normal", ignoreCase = true)) {
+            // Find the start and end indices of the word "normal"
+            val startIndex = resultText.indexOf("normal", ignoreCase = true)
+            val endIndex = startIndex + "normal".length
+
+            // Set the color to blue and make it bold
+            spannable.setSpan(ForegroundColorSpan(blue), startIndex, endIndex, 0)
+            spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+        } else if (resultText.contains("immature cataract", ignoreCase = true)) {
+            val startIndex = resultText.indexOf("immature cataract", ignoreCase = true)
+            val endIndex = startIndex + "immature cataract".length
+
+            spannable.setSpan(ForegroundColorSpan(yellow), startIndex, endIndex, 0)
+            spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+        } else if (resultText.contains("mature cataract", ignoreCase = true)) {
+                val startIndex = resultText.indexOf("mature cataract", ignoreCase = true)
+                val endIndex = startIndex + "mature cataract".length
+
+                spannable.setSpan(ForegroundColorSpan(red), startIndex, endIndex, 0)
+                spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+        }
+
+        // Set the styled text to the TextView
+        return spannable
+    }
 
     fun toPercentString(value: Float): String {
         return "%.2f".format(value * 100) + "%"
     }
+
+//    fun setStyledTextWithPlaceholder(
+//        context: Context,
+//        textResource: Int,
+//        percentage: String
+//    ): Spanned {
+//        val formattedText = String.format(context.getString(textResource), percentage)
+//        val styledText = Html.fromHtml(formattedText, Html.FROM_HTML_MODE_LEGACY)
+//        return styledText
+//    }
 }

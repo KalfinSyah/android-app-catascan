@@ -17,18 +17,42 @@ import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 
 class PreviewActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityPreviewBinding.inflate(layoutInflater)
     }
 
-    private val viewModel by viewModels<PreviewViewModel>()
+    private val viewModel: PreviewViewModel by viewModels {
+        PreviewViewModelFactory.getInstance(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        @Suppress("DEPRECATION")
+        window.apply {
+            statusBarColor = android.graphics.Color.TRANSPARENT
+            decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
+
+        viewModel.fromRecent.value = intent.getStringExtra(EXTRA_RESULT)
+
+        viewModel.fromRecent.observe(this) {
+            if (!it.isNullOrBlank()) {
+                binding.result.visibility = View.VISIBLE
+                binding.scanBtn.visibility = View.GONE
+                binding.textView.text = getString(R.string.preview_or_result, "Result")
+                binding.result.text =  Utils.resultCustomStyling(this, intent.getStringExtra(EXTRA_RESULT) ?: "")
+            }
+        }
 
         viewModel.setResultVisibility.observe(this) {
             if (it == true) {
@@ -41,6 +65,7 @@ class PreviewActivity : AppCompatActivity() {
                 binding.textView.text = getString(R.string.preview_or_result, "Preview")
             }
         }
+
         viewModel.setCapturedImage.observe(this) {
             Glide.with(this)
                 .load(it)
@@ -57,7 +82,6 @@ class PreviewActivity : AppCompatActivity() {
         }
         binding.scanBtn.setOnClickListener {
             viewModel.setResultVisibility.value = true
-
             classifyImage(viewModel.setCapturedImage.value ?: Uri.EMPTY)
         }
     }
@@ -102,18 +126,25 @@ class PreviewActivity : AppCompatActivity() {
 
         val confidence = Utils.toPercentString(probabilities[maxProbabilityIndex])
 
-        val colorForEyeResult = when (predictedClassName) {
-            "immature cataract" -> R.color.yellow
-            "mature cataract" -> R.color.red
-            else -> R.color.blue
+        val textResource = when (predictedClassName) {
+            "immature cataract" -> getString(R.string.info_immature)
+            "mature cataract" -> getString(R.string.info_mature)
+            else -> getString(R.string.infor_normal)
         }
 
         // Display the result
-        viewModel.result.value = Utils.setAndGetTextAndSetColorText(
+        viewModel.result.value = Utils.resultCustomStyling(
             this,
-            predictedClassName,
-            confidence,
-            colorForEyeResult
+            textResource,
+            confidence
+        )
+
+        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
+        val timestamp = formatter.format(Date())
+        viewModel.saveToHistory(
+            timestamp,
+            intent.getStringExtra(EXTRA_CAPTURED_IMAGE).toString(),
+            viewModel.result.value.toString()
         )
 
         // Release model resources
@@ -122,5 +153,6 @@ class PreviewActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_CAPTURED_IMAGE = "EXTRA_CAPTURED_IMAGE"
+        const val EXTRA_RESULT = "EXTRA_RESULT"
     }
 }

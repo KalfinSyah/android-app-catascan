@@ -1,13 +1,16 @@
 package com.capstone.catascan.ui.scan
 
 import android.Manifest
+import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,10 +21,13 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.capstone.catascan.R
 import com.capstone.catascan.Utils.createCustomTempFile
 import com.capstone.catascan.databinding.FragmentScanBinding
 import com.capstone.catascan.ui.scan.preview.PreviewActivity
+
 
 class ScanFragment : Fragment() {
 
@@ -29,11 +35,14 @@ class ScanFragment : Fragment() {
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
 
-
     // camera
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
 
+    // view model
+    private val viewModel: ScanViewModel by viewModels {
+        ScanViewModelFactory.getInstance(activity?.application as Application)
+    }
 
     // for permission
     private val requestPermissionLauncher = registerForActivityResult(
@@ -45,7 +54,6 @@ class ScanFragment : Fragment() {
                 Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_LONG).show()
             }
         }
-
     private fun allPermissionsGranted() = ContextCompat.checkSelfPermission(
             requireContext(),
             REQUIRED_PERMISSION
@@ -73,39 +81,43 @@ class ScanFragment : Fragment() {
         binding.captureBtn.setOnClickListener { takePhoto() }
         binding.galleryBtn.setOnClickListener { startGallery() }
 
-        Glide.with(requireContext())
-            .load("https://picsum.photos/201")
-            .into(binding.imageView1)
-        Glide.with(requireContext())
-            .load("https://picsum.photos/202")
-            .into(binding.imageView2)
-        Glide.with(requireContext())
-            .load("https://picsum.photos/203")
-            .into(binding.imageView3)
-        Glide.with(requireContext())
-            .load("https://picsum.photos/204")
-            .into(binding.imageView4)
+        val recentImages = listOf(
+            binding.imageView1,
+            binding.imageView2,
+            binding.imageView3,
+            binding.imageView4
+        )
 
-        binding.imageView1.setOnClickListener {
-            val intent = Intent(requireContext(), PreviewActivity::class.java)
-            intent.putExtra("EXTRA_CAPTURED_IMAGE", "https://picsum.photos/201")
-            startActivity(intent)
+        viewModel.getAllHistory().observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                val marginBottom = resources.getDimensionPixelSize(R.dimen.linearLayoutForScan)
+                val params = binding.linearLayout.layoutParams as ViewGroup.MarginLayoutParams
+                params.bottomMargin = marginBottom
+                binding.linearLayout4.visibility = View.VISIBLE
+                for (i in it.take(4).toMutableList().indices) {
+                    if (i <= 4) {
+                        recentImages[i].visibility = View.VISIBLE
+                        setRecent(recentImages[i], it[i].image, it[i].result)
+                    }
+                }
+            } else {
+                for (i in recentImages.indices) {
+                    recentImages[i].visibility = View.GONE
+                }
+
+                val actionBarSize = TypedValue()
+                requireContext().theme.resolveAttribute(android.R.attr.actionBarSize, actionBarSize, true)
+                val marginBottom = actionBarSize.getDimension(resources.displayMetrics).toInt()
+                val extraMargin = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 40f, resources.displayMetrics
+                ).toInt()
+                val totalMarginBottom = marginBottom + extraMargin
+                val params = binding.linearLayout.layoutParams as ViewGroup.MarginLayoutParams
+                params.bottomMargin = totalMarginBottom
+                binding.linearLayout4.visibility = View.GONE
+            }
         }
-        binding.imageView2.setOnClickListener {
-            val intent = Intent(requireContext(), PreviewActivity::class.java)
-            intent.putExtra("EXTRA_CAPTURED_IMAGE", "https://picsum.photos/202")
-            startActivity(intent)
-        }
-        binding.imageView3.setOnClickListener {
-            val intent = Intent(requireContext(), PreviewActivity::class.java)
-            intent.putExtra("EXTRA_CAPTURED_IMAGE", "https://picsum.photos/203")
-            startActivity(intent)
-        }
-        binding.imageView4.setOnClickListener {
-            val intent = Intent(requireContext(), PreviewActivity::class.java)
-            intent.putExtra("EXTRA_CAPTURED_IMAGE", "https://picsum.photos/204")
-            startActivity(intent)
-        }
+
 
         return view
     }
@@ -113,6 +125,19 @@ class ScanFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         startCamera()
+    }
+
+    private fun setRecent(imageView: ImageView, imageStr: String, result: String) {
+        Glide.with(requireContext())
+            .load(imageStr)
+            .into(imageView)
+
+        imageView.setOnClickListener {
+            val intent = Intent(requireContext(), PreviewActivity::class.java)
+            intent.putExtra("EXTRA_CAPTURED_IMAGE", imageStr)
+            intent.putExtra("EXTRA_RESULT", result)
+            startActivity(intent)
+        }
     }
 
     private fun startCamera() {
