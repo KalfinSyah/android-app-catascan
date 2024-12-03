@@ -1,13 +1,214 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:clipToPadding="false"
+    android:paddingTop="25dp"
+    android:paddingBottom="?attr/actionBarSize"
+    android:padding="16dp">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hello"
+            android:textColor="@color/setting_item"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/greeting"
+            android:text="@string/cataners"
+            android:textColor="@color/setting_item"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile" />
+
+        <RelativeLayout
+            android:id="@+id/tips_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_below="@id/username"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/card_background"
+            android:elevation="8dp">
+
+            <TextView
+                android:id="@+id/tips_text"
+                android:layout_width="213dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:layout_toStartOf="@+id/tips_image"
+                android:gravity="center_vertical"
+                android:text="@string/tips_to_prevent_cataracts_and_protect_eye_nhealth"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+            <ImageView
+                android:id="@+id/tips_image"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/laser"
+                tools:ignore="ContentDescription,ImageContrastCheck" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/scan_card"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/tips_card"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/scan_background"
+            android:elevation="8dp">
+
+            <TextView
+                android:id="@+id/scan_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_toStartOf="@+id/scankanan"
+                android:gravity="center_vertical"
+                android:text="@string/start_your_cataract_eye_care_nscan_now"
+                android:textColor="#ffff"
+                android:textSize="20sp"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/scankanan"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/scankanan"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/newsterkait"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scan_card"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/related_news"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/scan_card"
+                android:layout_marginTop="16dp"
+                android:text="@string/related_article"
+                android:textColor="#1F7BBF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:ignore="NotSibling" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewnews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/related_news"
+                android:layout_marginTop="-3dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_news" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/retry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/retry"
+                android:backgroundTint="@color/blue"
+                app:cornerRadius="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/progress_bar"
+                android:layout_marginTop="32dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/related_news"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/retry_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="@string/dummy"
+                android:textColor="@color/setting_item"
+                tools:ignore="TextContrastCheck" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/newsterkait">
+
+            <TextView
+                android:id="@+id/cataract_types"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/newsterkait"
+                android:layout_marginTop="32dp"
+                android:text="@string/cataract_types"
+                android:textColor="#1F7BBF"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:ignore="NotSibling" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvtypes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cataract_types"
+                android:layout_marginBottom="60dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_cataract" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

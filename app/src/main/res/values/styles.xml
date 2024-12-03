@@ -16,6 +16,14 @@
         <item name="cornerSizeBottomRight">20dp</item>
     </style>
 
+    <style name="all_corner_40dp">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">40dp</item>
+        <item name="cornerSizeBottomLeft">40dp</item>
+        <item name="cornerSizeTopRight">40dp</item>
+        <item name="cornerSizeBottomRight">40dp</item>
+    </style>
+
     <style name="round_corner_top_right_bottom_right_20dp">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopLeft">0dp</item>

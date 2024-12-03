@@ -4,10 +4,10 @@
 
     <!-- Gradient color -->
     <gradient
-        android:startColor="@color/profile_gradient_top"
-        android:centerColor="@color/profile_gradient_middle"
-        android:endColor="@color/profile_gradient_bottom"
-        android:angle="270" />
+        android:endColor="@color/blue"
+        android:startColor="#AAB5C3"
+        android:angle="270"
+        android:type="linear" />
 
     <!-- Rounded corners -->
     <corners

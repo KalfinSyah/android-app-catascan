@@ -1,64 +1,4 @@
-<!--<resources>-->
-<!--    <string name="app_name">Catascan</string>-->
-<!--    <string name="profile">Profile</string>-->
-<!--    <string name="scan">Scan</string>-->
-<!--    <string name="history">History</string>-->
-<!--    <string name="home">Home</string>-->
-<!--    <string name="say_hi_to">Hi, %s!</string>-->
-<!--    <string name="email">%s</string>-->
-<!--    <string name="notification">Notification</string>-->
-<!--    <string name="dark_mode">Dark Mode</string>-->
-
-
-<!--    <string name="logout">Logout</string>-->
-<!--    <string name="preview_or_result">%s</string>-->
-<!--    <string name="recent">Recent</string>-->
-<!--    <string name="result">This eye is diagnosed as %s with an confidence score of %s.\n%s</string>-->
-<!--    <string name="infor_normal">"An normal eye means this eye have no signs of cataract"</string>-->
-<!--    <string name="info_mature">A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.</string>-->
-<!--    <string name="info_immature">An immature cataract is an early stage of a clouding of the eyes lens that can cause vision problems.</string>-->
-<!--    <string name="date">%s</string>-->
-
-<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
-<!--</resources>-->
-
-<!--<resources>-->
-<!--    <string name="app_name">Catascan</string>-->
-<!--    <string name="profile">Profile</string>-->
-<!--    <string name="scan">Scan</string>-->
-<!--    <string name="history">History</string>-->
-<!--    <string name="home">Home</string>-->
-<!--    <string name="say_hi_to">Hi, %s!</string>-->
-<!--    <string name="email">%s</string>-->
-<!--    <string name="notification">Notification</string>-->
-<!--    <string name="dark_mode">Dark Mode</string>-->
-
-
-<!--    <string name="dummy">dummy</string>-->
-<!--    <string name="logout">Logout</string>-->
-<!--    <string name="preview_or_result">%s</string>-->
-<!--    <string name="recent">Recent</string>-->
-<!--    <string name="infor_normal">-->
-<!--        <![CDATA[-->
-<!--        This eye is <font color="#1F7BBF"><b>normal</b></font> with an confidence score of <font color="#1F7BBF"><b>%s</b></font> it means this eye have <font color="#1F7BBF"><b>no sign of cataract</b></font>.-->
-<!--        ]]>-->
-<!--    </string>-->
-<!--    <string name="info_mature">-->
-<!--        <![CDATA[-->
-<!--        This eye is diagnosed as a <font color="#FA5548"><b>mature cataract</b></font> with an confidence score of <font color="#FA5548"><b>%s</b></font>. A <font color="#FA5548"><b>mature cataract</b></font> is a <font color="#FA5548"><b>cataract</b></font> that has developed to an <font color="#FA5548"><b>advanced stage</b></font>, where the lens of the eye is opaque and dense, and vision is <font color="#FA5548"><b>severely impaired</b></font>.-->
-<!--        ]]>-->
-<!--    </string>-->
-
-<!--    <string name="info_immature">-->
-<!--        <![CDATA[-->
-<!--        This eye is diagnosed as an <font color="#F0BC18"><b>immature cataract</b></font> with an confidence score of <font color="#F0BC18"><b>%s</b></font>. An <font color="#F0BC18"><b>immature cataract</b></font> is an early stage of a <font color="#F0BC18"><b>cataract</b></font>, where the lens of the eyes is clouding that can cause <font color="#F0BC18"><b>vision problems</b></font>.-->
-<!--        ]]>-->
-<!--    </string>-->
-<!--    <string name="date">%s</string>-->
-<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
-<!--</resources>-->
-
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Catascan</string>
     <string name="profile">Profile</string>
@@ -76,15 +16,157 @@
     <string name="preview_or_result">%s</string>
     <string name="recent">Recent</string>
     <string name="infor_normal">
-        This eye is normal with an confidence score of %s it means this eye have no sign of cataract.
+        Scan result show that this eye is normal, means this eye have no sign of cataract.
+        \n\n(confidence score : %s)
     </string>
     <string name="info_mature">
-        This eye is diagnosed as a mature cataract with an confidence score of %s. A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.
+        Scan result show that this eye is detected as a mature cataract. A mature cataract is a cataract that has developed to an advanced stage, where the lens of the eye is opaque and dense, and vision is severely impaired.
+        \n\n(confidence score : %s)
     </string>
 
     <string name="info_immature">
-        This eye is diagnosed as an immature cataract with an confidence score of %s. An immature cataract is an early stage of a cataract, where the lens of the eyes is clouding that can cause vision problems.
+        Scan result show that this eye is detected as an immature cataract. An immature cataract is an early stage of a cataract, where the lens of the eyes is clouding that can cause vision problems.
+        \n\n(confidence score : %s)
     </string>
     <string name="date">%s</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_history_yet">No history yet!</string>
+
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="welcome_yapping">From cataract detection to scan history and information on cataract types, CataScan\n helps protect your eye health.</string>
+    <string name="catascan">CataScan</string>
+    <string name="sight">Sight</string>
+    <string name="your">Your</string>
+    <string name="protecting">Protecting</string>
+    <string name="eyes">Eyes,</string>
+    <string name="caring_for_your">Caring for Your</string>
+    <string name="remember_me">Remember me</string>
+    <string name="log_in">Log in</string>
+    <string name="login_to_continue">Login to Continue</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="create_account">Create Account</string>
+    <string name="register_to_continue">Register to continue</string>
+    <string name="agree_to_terms_and_conditions">Agree to terms and conditions</string>
+
+    <string name="hello">Hello,</string>
+    <string name="cataners">Cataners!</string>
+    <string name="tips_to_prevent_cataracts_and_protect_eye_nhealth">Tips to prevent cataracts and protect eye health</string>
+    <string name="search_hint">search....</string>
+    <string name="start_your_cataract_eye_care_nscan_now">Start scan your eye now</string>
+    <string name="related_article">International Articles Related to Cataracts</string>
+    <string name="cataract_types">Cataract Types</string>
+    <string name="type_name">Cataract Type</string>
+    <string name="back">Back</string>
+
+
+    <string-array name="languages">
+        <item name="english">English</item>
+        <item name="indonesia">Indonesia</item>
+    </string-array>
+
+
+    <string-array name="data_name">
+        <item>Nuclear Sclerosis</item>
+        <item>Cortical</item>
+        <item>Posterior Subcapsular</item>
+        <item>Congenital</item>
+        <item>Morgagnian</item>
+        <item>Diabetic</item>
+        <item>Polychromatic</item>
+        <item>Posterior Polar</item>
+    </string-array>
+
+    <string-array name="data_description">
+    <item>
+        According to Mayo Clinic, nuclear cataracts are a classification of cataracts that occur in the central part of the eye lens. People with nuclear cataracts will experience changes in the lens, which turns yellow and hardens gradually over the years.\n\n
+        When the central part of the lens (lens nucleus) hardens, you may develop nearsightedness (myopia). This is why some people no longer need reading glasses (presbyopia) as this type of cataract begins to form.\n\n
+        This cataract can also cause colors to fade, although this symptom is often unnoticed. This occurs because the lens turns increasingly yellow or brown.\n\n
+        Here are the symptoms caused by nuclear cataracts:\n
+        - Blurry vision\n
+        - Double vision\n
+        - Monocular diplopia (double vision occurring in one eye only)\n
+        - Poor vision in dim light\n
+        - Reduced color perception\n
+        - Glare
+    </item>
+        <item>
+        Cortical cataracts occur when the lens fibers surrounding the nucleus become cloudy. This type of cataract begins with cloudiness shaped like streaks on the outer edges of the lens.\n\n
+        Symptoms usually caused by cortical cataracts include:\n
+        - Glare\n
+        - Reduced near vision\n
+        - Insensitivity to contrast
+    </item>
+        <item>
+        Posterior subcapsular cataracts (PSC) are opacities that occur at the back of the lens. This type of cataract tends to occur in younger patients compared to cortical or nuclear cataracts.\n\n
+        Symptoms usually caused by this type of cataract are:\n
+        - Glare\n
+        - Difficulty seeing distant objects\n
+        - Rapidly decreasing visual ability
+    </item>
+        <item>
+        Congenital cataracts are cataracts present from birth. They can appear at birth or during childhood. This type of cataract can be genetic or caused by infections during pregnancy or trauma.\n\n
+        Certain conditions can also cause cataracts in children, such as myotonic dystrophy, galactosemia, neurofibromatosis type 2, or rubella. Congenital cataracts do not always affect vision, but if they do, they are usually treated promptly after being detected.
+    </item>
+        <item>
+        Morgagnian cataracts are a type of cataract that can trigger closed-angle glaucoma. Morgagnian cataracts are considered hypermature cataracts, which can also lead to closed-angle glaucoma.\n\n
+        Cataracts are an eye condition that causes the lens to become cloudy. Cloudy lenses can interfere with vision, causing blurriness, shadows, or glare.\n\n
+        Some symptoms of cataracts include:\n
+        - Gradual decline in visual sharpness\n
+        - Difficulty seeing at night\n
+        - Halos or streaks around bright objects\n
+        - Cloudy or misty vision, especially during the day\n
+        - The central part of the eye, which is normally black, appears whiter
+    </item>
+        <item>
+        Diabetic cataracts are a complication of diabetes that affects the eyes. According to the CDC, 32.2% of diabetics over 45 years old experience diabetic cataracts. To prevent further cataract development, it is important to watch for signs of diabetic cataracts.\n\n
+        Cataract symptoms in the early stages do not immediately interfere with vision, making them hard to notice. Cataracts develop slowly over time and eventually cause significant vision problems.\n\n
+        The signs and symptoms of diabetic cataracts include:\n
+        - Blurry and cloudy vision\n
+        - Hazy vision\n
+        - Cloudy spots around the eye lens\n
+        - Sensitivity to bright light\n
+        - Seeing halos around bright lights\n
+        - Vision turning yellowish
+    </item>
+        <item>
+        According to the American Academy of Ophthalmology, polychromatic cataracts are also known as "Christmas Tree Cataracts." These are characterized by colored crystals in the eye lens. This condition is a rare form of senile cataract development and typically occurs in patients with myotonic dystrophy.
+    </item>
+        <item>
+        Posterior polar cataracts are a type of cataract that occurs in the back of the eye lens capsule, precisely at the optical axis. This type of cataract is often associated with genetic factors and may be present at birth (congenital) or develop over time.\n\n
+        Key characteristics:\n
+        Location: These cataracts are located at the back of the lens, near the posterior capsule.\n
+        Shape: Usually appear as small white spots or opacities in the center of the lens.\n\n
+        Symptoms:\n
+        - Blurry vision, especially when looking at bright objects\n
+        - Sensitivity to light (glare)\n
+        - Difficulty reading or seeing small objects
+    </item>
+    </string-array>
+
+
+    <integer-array name="data_photo">
+        <item>@drawable/nuklir</item>
+        <item>@drawable/kortikal</item>
+        <item>@drawable/subkapsolar</item>
+        <item>@drawable/kongenital</item>
+        <item>@drawable/morgagnian</item>
+        <item>@drawable/diabetik</item>
+        <item>@drawable/polikromatik</item>
+        <item>@drawable/polar</item>
+    </integer-array>
+
+    <string name="error_msg">Failed to get the data, check your connection and retry!</string>
+    <string name="retry">retry</string>
+
+    <string name="tips_to_prevent_ncataracts_and_nprotect_eye_health">Tips to prevent cataracts and protect eye health</string>
+    <string name="cara_mencegah_mata_katarak">How to Prevent Cataracts</string>
+    <string name="meski_bertambahnya_usia_menjadi_salah_satu_faktor_penyebab_mata_katarak_bukan_berarti_kondisi_ini_tak_bisa_dicegah_ada_beberapa_cara_mencegah_mata_katarak_terutama_bagi_anda_yang_memiliki_keluarga_dengan_riwayat_katarak">Although aging is one of the factors that cause cataracts, it does not mean that this condition cannot be prevented. There are several ways to prevent cataracts, especially for those who have a family history of cataracts.</string>
+    <string name="caranya_meliputi">The methods include:</string>
+    <string name="caranya_isi">1. Regular eye check-ups\nIf you regularly check your eye health, doctors will be able to quickly detect any signs of cataracts. Cataracts that are still in the early stages are easier to handle and treat by an eye doctor.\n\nAdults are advised to have an eye check-up every two years until the age of 50. Above 50 years old, it is recommended to have an eye exam at least once a year.\n\nMeanwhile, individuals with a history of diabetes are at a higher risk of developing eye diseases and are advised to have more frequent eye check-ups.\n\n2. Protecting eyes from UV exposure\nExposure to ultraviolet rays can increase the risk of cataracts. Moreover, UV rays can worsen existing cataracts because they can damage the proteins in the eye lens.\n\nTo prevent cataracts, avoid direct sunlight by wearing sunglasses or a wide-brimmed hat, especially when engaging in outdoor activities under direct sunlight.\n\nChoose sunglasses that block at least 99% of UV rays and are wide enough for maximum protection.\n\n3. Maintaining overall health\nMaintaining overall health is very important in preventing diseases, including cataracts. This is because several conditions can increase the risk of cataracts, such as diabetes, unhealthy eye conditions, and complications from previous eye surgeries.\n\nYou should also be cautious about long-term corticosteroid use as it can increase the risk of cataracts. Always ensure regular check-ups with your doctor regarding steroid use and any underlying conditions you may have.\n\n4. Eating nutritious foods\nResearch shows that consuming foods containing antioxidants, such as lutein and zeaxanthin, vitamin C, and vitamin E, significantly lowers the risk of cataracts. Antioxidants help prevent protein damage in the eye lens, thus preventing cataracts.\n\nYou can benefit from antioxidants by consuming dark green leafy vegetables. Natural sources of vitamin C can be obtained from oranges, tomatoes, strawberries, broccoli, melons, and kiwis, while vitamin E sources include vegetable oils, almonds, and spinach.\n\n5. Maintaining an ideal body weight\nBeing overweight or obese can increase the risk of diabetes, which is a risk factor for cataracts. Therefore, ensure that you maintain an ideal body weight by following a healthy diet, eating balanced nutrition, and exercising regularly.\n\n6. Quitting smoking\nSmoking increases the risk of cataracts because it creates more free radicals in your eyes. To reduce the risk of cataracts, you are advised to reduce or quit smoking. If this is difficult, try consulting a doctor.\n\n7. Limiting alcohol consumption\nIf you are a fan of alcoholic beverages, it is best to limit or stop this habit. Studies show that excessive alcohol consumption can increase the risk of cataracts.\n\nCataracts are often not detected early because they rarely cause symptoms. However, over time, you may experience complaints, even difficulty seeing. Therefore, take preventive measures to keep your eyes healthy until old age.\n\nIf you have any eye complaints, such as difficulty seeing at night, double vision, blurry vision, or other cataract symptoms, consult a doctor immediately for proper treatment.</string>
+
+    <string name="username_cannot_be_empty">username cannot be empty</string>
+    <string name="invalid_email">invalid email</string>
+    <string name="password_must_be_at_least_8_characters">password must be at least 8 characters</string>
+    <string name="by_continuing_terms">By continuing, you agree to our Terms of Service and Privacy Policy</string>
 </resources>

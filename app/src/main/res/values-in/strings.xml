@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Catascan</string>
+    <string name="profile">Profil</string>
+    <string name="scan">Pindai</string>
+    <string name="history">Riwayat</string>
+    <string name="home">Beranda</string>
+    <string name="say_hi_to">Hai, %s!</string>
+    <string name="email">%s</string>
+    <string name="notification">Notifikasi</string>
+    <string name="dark_mode">Mode Gelap</string>
+
+    <string name="dummy">dummy</string>
+    <string name="logout">Keluar</string>
+    <string name="preview_or_result">%s</string>
+    <string name="recent">Baru Saja</string>
+    <string name="infor_normal">
+        Hasil scan menunjukkan bahwa mata ini terdeteksi normal, yang berarti mata ini tidak memiliki tanda-tanda katarak.
+        \n\n(confidence score : %s)
+    </string>
+    <string name="info_mature">
+        Hasil scan menunjukkan bahwa mata ini terdeteksi sebagai mature cataract, yang artinya adalah katarak yang telah berkembang ke tahap lanjut, di mana lensa mata menjadi buram dan padat, serta penglihatan sangat terganggu.
+        \n\n(confidence score : %s)
+    </string>
+    <string name="info_immature">
+        Hasil scan menunjukkan bahwa mata ini terdeteksi immature cataract, yang artinya adalah katarak tahap awal, di mana lensa mata mulai menjadi keruh yang dapat menyebabkan masalah penglihatan.
+        \n\n(confidence score : %s)
+    </string>
+    <string name="date">%s</string>
+    <string name="hello_blank_fragment">Halo fragmen kosong</string>
+    <string name="no_history_yet">Belum ada riwayat!</string>
+
+    <string name="login">Masuk</string>
+    <string name="register">Daftar</string>
+    <string name="welcome_yapping">Dari deteksi katarak hingga riwayat pemindaian dan informasi tentang jenis-jenis katarak, CataScan\n membantu melindungi kesehatan mata Anda.</string>
+    <string name="catascan">CataScan</string>
+    <string name="sight">Sight</string>
+    <string name="your">Your</string>
+    <string name="protecting">Protecting</string>
+    <string name="eyes">Eyes,</string>
+    <string name="caring_for_your">Caring for Your</string>
+    <string name="remember_me">Ingat Saya</string>
+    <string name="log_in">Login</string>
+    <string name="login_to_continue">Login untuk melanjutkan</string>
+    <string name="welcome_back">Selamat datang kembali</string>
+    <string name="create_account">Buat akun</string>
+    <string name="register_to_continue">Daftar untuk melanjutkan</string>
+    <string name="agree_to_terms_and_conditions">Setuju dengan syarat dan ketentuan.</string>
+
+
+    <string name="hello">Hai,</string>
+    <string name="cataners">Cataners!</string>
+    <string name="tips_to_prevent_cataracts_and_protect_eye_nhealth">Tips untuk mencegah katarak dan melindungi kesehatan mata</string>
+    <string name="search_hint">search....</string>
+    <string name="start_your_cataract_eye_care_nscan_now">Scan mata anda sekarang</string>
+    <string name="related_article">Artikel Internasional Terkait Katarak</string>
+    <string name="cataract_types">Tipe Katarak</string>
+    <string name="type_name">Cataract Type</string>
+    <string name="back">Kembali</string>
+
+    <string-array name="languages">
+        <item name="english">English</item>
+        <item name="indonesia">Indonesia</item>
+    </string-array>
+
+    <string-array name="data_name">
+        <item>Nuklear Sklerosis</item>
+        <item>Kortikal</item>
+        <item>Posterior Subkapsular</item>
+        <item>Kongenital</item>
+        <item>Morgagnian</item>
+        <item>Diabetik</item>
+        <item>Polikromatik</item>
+        <item>Polar Posterior</item>
+    </string-array>
+
+    <string-array name="data_description">
+        <item>Dikutip dari Mayo Clinic, katarak nuklear merupakan klasifikasi katarak yang terjadi pada lensa mata bagian tengah. Orang dengan katarak nuklear akan mengalami perubahan lensa mata yang tadinya transparan menguning dan mengeras perlahan selama bertahun-tahun.\n\nKetika lensa bagian tengah (inti lensa) mengeras, Anda mungkin akan mengalami rabun jauh (mata minus). Ini sebabnya beberapa orang tidak lagi memerlukan kacamata baca (mata plus) ketika katarak jenis ini mulai terbentuk.\n\nKatarak ini juga dapat menyebabkan warna yang Anda lihat menjadi pudar, meskipun gejala ini seringnya ini tidak disadari. Hal itu terjadi karena lensa yang semakin menguning atau menjadi kecokelatan.\n\nBerikut adalah gejala-gejala yang ditimbulkan akibat katarak nuklear:\n- Penglihatan kabur\n- Penglihatan ganda\n- Diplopia monokuler (penglihatan ganda yang terjadi hanya pada satu mata)\n- Penglihatan buruk saat gelap\n- Kemampuan membedakan warna berkurang\n- Silau
+        </item>
+        <item>Katarak kortikal terjadi ketika bagian serat lensa yang mengelilingi nukleus menjadi buram. Jenis katarak ini dimulai dengan kekeruhan berbentuk goresan di tepi luar lensa.\n\nGejala yang biasanya ditimbulkan akibat katarak kortikal, antara lain:\n- Mata silau\n- Penglihatan jarak dekat berkurang\n- Menjadi tidak sensitif terhadap kontras
+        </item>
+        <item>Katarak subkapsular posterior atau posterior subcapsular cataracts (PSC) adalah kekeruhan yang terjadi di lensa mata bagian belakang. Jenis katarak ini cenderung terjadi pada pasien yang lebih muda daripada katarak kortikal atau nuklear.\n\nGejala yang biasanya ditimbulkan akibat katarak jenis ini adalah:\n- Silau\n- Kesulitan melihat jarak jauh\n- Kemampuan penglihatan berkurang dengan cepat\n
+        </item>
+        <item>Katarak kongenital adalah jenis katarak yang terjadi akibat bawaan lahir. Ini bisa muncul saat bayi baru lahir atau muncul ketika masa kanak-kanak. Katarak pada anak ini bersifat genetik atau bisa juga akibat infeksi yang terjadi selama masa kehamilan atau trauma.\n\nBeberapa kondisi tertentu juga dapat menyebabkan katarak pada anak, seperti distrofi miotonik, galaktosemia, neurofibromatosis tipe dua, atau rubella. Katarak kongenital tidak selalu memengaruhi penglihatan, tetapi jika iya, biasanya akan segera hilang setelah terdeteksi.
+        </item>
+        <item>Katarak morgagnian adalah salah satu jenis katarak yang dapat memicu glaukoma sudut tertutup. Katarak morgagnian termasuk dalam katarak hipermatur, yang juga dapat memicu glaukoma sudut tertutup.\n\nKatarak adalah gangguan pada mata yang menyebabkan lensa mata menjadi keruh. Lensa mata yang keruh dapat mengganggu penglihatan, sehingga mata menjadi buram, berbayang, atau silau.\n\nBeberapa gejala katarak, di antaranya:\n- Penurunan tajam penglihatan secara bertahap\n- Gangguan penglihatan saat malam\n- Adanya berkas cahaya saat melihat objek yang terang\n- Sensasi pandangan berkabut atau berawan, terutama saat siang hari\n- Bagian tengah mata yang biasanya berwarna hitam, terlihat lebih putih\n
+        </item>
+        <item>Katarak diabetik adalah salah satu komplikasi diabetes yang menyerang mata. Menurut CDC, terdapat 32,2% diabetesi berusia diatas 45 tahun yang mengalami katarak diabetik. Untuk mencegah katarak berkembang lebih luas, Anda perlu mewaspadai tanda-tanda katarak diabetik.\n\nPasalnya, gejala katarak di awal tidak langsung mengganggu fungsi penglihatan sehingga bisa sulit disadari oleh pasien diabetes. Katarak akan berkembang secara perlahan seiring waktu sampai menyebabkan gangguan penglihatan yang serius.\n\nBerikut ini adalah tanda-tanda dan gejala katarak diabetik.\n
+            - Penglihatan buram dan berkabut.\n
+            - Pandangan kabur.\n
+            - Titik kabut di sekitar lensa mata.\n
+            - Mata sensitif terhadap cahaya terang.\n
+            - Melihat lingkaran saat terkena cahaya terang.\n
+            - Penglihatan berubah menguning.
+        </item>
+        <item>Dikutip dari American Academy of Ophthalmology, katarak polikromatik juga dikenal sebagai katarak “Pohon Natal”. Katarak ini ditandai dengan kristal berwarna di lensa mata. Kondisi ini disebut sebagai jenis langka dari perkembangan katarak pikun dan biasanya terjadi pada pasien dengan distrofi miotonik. </item>
+        <item>Katarak Polar Posterior adalah salah satu jenis katarak yang terjadi di bagian belakang kapsul lensa mata, tepat di daerah poros optik. Jenis katarak ini sering kali terkait dengan faktor genetik dan bisa muncul sejak lahir (kongenital) atau berkembang seiring waktu.\n\nBerikut adalah beberapa hal penting mengenai katarak polar posterior:\nKarakteristik Utama:\nLokasi: Katarak ini terletak di bagian belakang lensa mata, di dekat kapsul posterior.\nBentuk: Biasanya berbentuk bintik putih atau buram kecil yang terlihat di tengah lensa.\n\n
+            Gejala:\n- Penglihatan buram, terutama saat melihat objek di bawah cahaya terang.\n- Sensitivitas terhadap cahaya (silau).\n- Kesulitan membaca atau melihat benda kecil.</item>
+    </string-array>
+
+    <integer-array name="data_photo">
+        <item>@drawable/nuklir</item>
+        <item>@drawable/kortikal</item>
+        <item>@drawable/subkapsolar</item>
+        <item>@drawable/kongenital</item>
+        <item>@drawable/morgagnian</item>
+        <item>@drawable/diabetik</item>
+        <item>@drawable/polikromatik</item>
+        <item>@drawable/polar</item>
+    </integer-array>
+
+    <string name="error_msg">Gagal mendapatkan data, periksa koneksi Anda dan coba lagi!</string>
+    <string name="retry">Coba Lagi</string>
+
+    <string name="tips_to_prevent_ncataracts_and_nprotect_eye_health">Tips to prevent\ncataracts and\nprotect eye health</string>
+    <string name="cara_mencegah_mata_katarak">Cara Mencegah Mata Katarak</string>
+    <string name="meski_bertambahnya_usia_menjadi_salah_satu_faktor_penyebab_mata_katarak_bukan_berarti_kondisi_ini_tak_bisa_dicegah_ada_beberapa_cara_mencegah_mata_katarak_terutama_bagi_anda_yang_memiliki_keluarga_dengan_riwayat_katarak">Meski bertambahnya usia menjadi salah satu faktor penyebab mata katarak, bukan berarti kondisi ini tak bisa dicegah. Ada beberapa cara mencegah mata katarak, terutama bagi Anda yang memiliki keluarga dengan riwayat katarak.</string>
+    <string name="caranya_meliputi">Caranya meliputi:</string>
+    <string name="caranya_isi">1. Memeriksakan kondisi mata secara rutin\nJika Anda rutin memeriksakan kesehatan mata, dokter akan cepat mendeteksi apabila muncul tanda-tanda mata katarak. Katarak yang masih berada pada tahap awal dapat lebih mudah ditangani dan diobati oleh dokter mata.\n\nOrang dewasa dianjurkan untuk memeriksakan mata ke dokter setiap dua tahun sekali sampai usia 50 tahun. Di atas usia 50 tahun, Anda disarankan untuk memeriksakan mata setidaknya setahun sekali.\n\nSementara itu, orang dengan riwayat diabetes lebih berisiko mengalami penyakit mata sehingga disarankan untuk lebih sering memeriksakan kondisi mata.\n\n2. Melindungi mata dari paparan sinar UV\nPaparan sinar ultraviolet pada mata dapat meningkatkan risiko terjadinya mata katarak. Selain itu, sinar UV juga bisa membuat katarak menjadi makin parah. Ini karena sinar ultraviolet dapat merusak protein di lensa mata.\n\nUntuk mencegah mata katarak, hindari paparan sinar matahari langsung dengan menggunakan kacamata hitam atau topi lebar, terutama saat sedang beraktivitas di bawah terik matahari langsung.\n\nPilihlah kacamata hitam yang dapat memblokir setidaknya 99% sinar UV dan berukuran lebar, sehingga perlindungan yang Anda dapatkan maksimal.\n\n3. Menjaga kesehatan tubuh\nMenjaga kesehatan tubuh sangat penting dalam mencegah penyakit, salah satunya mata katarak. Hal ini karena ada beberapa penyakit yang dapat meningkatkan risiko mata katarak, seperti diabetes, kondisi mata yang tidak sehat serta komplikasi dari operasi mata yang pernah dijalani.\n\nAnda juga sebaiknya berhati-hati terhadap penggunaan kortikosteroid jangka panjang, karena dapat meningkatkan risiko terkena katarak. Selalu pastikan untuk kontrol rutin ke dokter terkait penggunaan steroid dan penyakit penyerta yang Anda alami.\n\n4. Mengonsumsi makanan bergizi\nPenelitian menunjukkan bahwa konsumsi makanan yang mengandung senyawa antioksidan, seperti lutein dan zeaxanthin, vitamin C, dan vitamin E, berdampak signifikan dalam menurunkan risiko terjadinya katarak. Antioksidan diketahui dapat menghentikan kerusakan protein pada lensa mata, sehingga mencegah katarak.\n\nAnda bisa mendapatkan manfaat antioksidan dari mengonsumsi sayuran berdaun hijau tua. Sementara itu, sumber alami vitamin C bisa Anda dapatkan dari jeruk, tomat, stroberi, brokoli, melon, dan kiwi, serta sumber vitamin E yang bisa didapatkan dari minyak sayuran, kacang almond, dan bayam.\n\n5. Menjaga berat badan ideal\nKelebihan berat badan atau obesitas dapat meningkatkan risiko terkena diabetes, yang merupakan salah satu faktor risiko mata katarak. Oleh karena itu, pastikan Anda menjaga berat badan ideal dengan menjalani pola makan yang sehat dan mengonsumsi makanan bergizi seimbang, serta rutin berolahraga.\n\n6. Menghentikan kebiasaan merokok\nKebiasaan merokok dapat meningkatkan risiko terkena mata katarak karena menciptakan lebih banyak radikal bebas di mata Anda. Guna menurunkan risiko mata katarak, Anda disarankan untuk mengurangi atau menghentikan kebiasaan merokok. Jika upaya ini terlalu berat, cobalah berkonsultasi dengan dokter.\n\n7. Membatasi konsumsi minuman beralkohol\nJika Anda termasuk penggemar minuman beralkohol, sebaiknya batasi atau hentikan kebiasaan ini. Penelitian menunjukkan bahwa konsumsi alkohol yang berlebihan dapat meningkatkan risiko terkena mata katarak.\n\nMata katarak sering kali tidak terdeteksi di awal karena jarang menimbulkan keluhan. Namun seiring waktu, Anda akan merasa beberapa keluhan, bahkan kesulitan melihat. Oleh karena itu, lakukan pencegahan mata katarak agar mata senantiasa sehat hingga usia lanjut.\n\nJika Anda memiliki keluhan pada mata, seperti kesulitan melihat di malam hari, penglihatan ganda, pandangan kabur, atau gejala mata katarak lainnya, segera konsultasikan ke dokter untuk mendapatkan penanganan yang tepat.</string>
+
+    <string name="username_cannot_be_empty">username tidak boleh kosong</string>
+    <string name="invalid_email">email tidak valid</string>
+    <string name="password_must_be_at_least_8_characters">password harus memiliki minimal 8 karakter</string>
+    <string name="by_continuing_terms">Dengan melanjutkan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.</string>
+</resources>

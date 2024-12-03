@@ -54,7 +54,7 @@
         <ImageView
             android:id="@+id/ivHistoryImage"
             android:layout_width="295dp"
-            android:layout_height="435dp"
+            android:layout_height="428dp"
             android:layout_gravity="top|center_vertical"
             android:scaleType="centerCrop"
             tools:ignore="ContentDescription,ImageContrastCheck"
@@ -76,7 +76,7 @@
                 android:padding="16dp"
                 android:text="@string/dummy"
                 android:textColor="#000000"
-                android:textSize="10sp"
+                android:textSize="20sp"
                 tools:ignore="SmallSp,TextContrastCheck,TextSizeCheck" />
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>

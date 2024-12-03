@@ -12,6 +12,11 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import java.io.File
 import java.text.SimpleDateFormat
@@ -57,35 +62,40 @@ object Utils {
         val red = ContextCompat.getColor(context, R.color.red)
         val blue = ContextCompat.getColor(context, R.color.blue)
 
-        val percentRegex = "\\d+(\\.\\d+)?%".toRegex()
+        val percentRegex = "\\(confidence score : \\d+(\\.\\d+)?%\\)".toRegex()
         percentRegex.findAll(resultText).forEach { match ->
             val startIndex = match.range.first
             val endIndex = match.range.last + 1
             // make it bold for percent numbers
-            spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+            spannable.setSpan(StyleSpan(Typeface.BOLD_ITALIC), startIndex, endIndex, 0)
         }
 
-        // Check if the result contains the word "normal"
-        if (resultText.contains("normal", ignoreCase = true)) {
-            // Find the start and end indices of the word "normal"
-            val startIndex = resultText.indexOf("normal", ignoreCase = true)
-            val endIndex = startIndex + "normal".length
-
+        // Apply styling for every occurrence of "normal"
+        "normal".toRegex(RegexOption.IGNORE_CASE).findAll(resultText).forEach { match ->
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
             // Set the color to blue and make it bold
             spannable.setSpan(ForegroundColorSpan(blue), startIndex, endIndex, 0)
             spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
-        } else if (resultText.contains("immature cataract", ignoreCase = true)) {
-            val startIndex = resultText.indexOf("immature cataract", ignoreCase = true)
-            val endIndex = startIndex + "immature cataract".length
+        }
 
+
+        // Apply styling for every occurrence of "mature cataract"
+        "mature cataract".toRegex(RegexOption.IGNORE_CASE).findAll(resultText).forEach { match ->
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
+            // Set the color to red and make it bold
+            spannable.setSpan(ForegroundColorSpan(red), startIndex, endIndex, 0)
+            spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
+        }
+
+        // Apply styling for every occurrence of "immature cataract"
+        "immature cataract".toRegex(RegexOption.IGNORE_CASE).findAll(resultText).forEach { match ->
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
+            // Set the color to yellow and make it bold
             spannable.setSpan(ForegroundColorSpan(yellow), startIndex, endIndex, 0)
             spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
-        } else if (resultText.contains("mature cataract", ignoreCase = true)) {
-                val startIndex = resultText.indexOf("mature cataract", ignoreCase = true)
-                val endIndex = startIndex + "mature cataract".length
-
-                spannable.setSpan(ForegroundColorSpan(red), startIndex, endIndex, 0)
-                spannable.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, 0)
         }
 
         // Set the styled text to the TextView
@@ -96,13 +106,26 @@ object Utils {
         return "%.2f".format(value * 100) + "%"
     }
 
-//    fun setStyledTextWithPlaceholder(
-//        context: Context,
-//        textResource: Int,
-//        percentage: String
-//    ): Spanned {
-//        val formattedText = String.format(context.getString(textResource), percentage)
-//        val styledText = Html.fromHtml(formattedText, Html.FROM_HTML_MODE_LEGACY)
-//        return styledText
-//    }
+    fun setFullScreen(window: Window) {
+        @Suppress("DEPRECATION")
+        window.apply {
+            statusBarColor = android.graphics.Color.TRANSPARENT
+            decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
+    }
+
+    fun setLoading(progressBar: ProgressBar, isLoading: Boolean) {
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    fun setBtnRetryAndErrorMsg(btn: Button, errorTv: TextView, msg: String) {
+        if (msg.isNotBlank()) {
+            btn.visibility = View.VISIBLE
+            errorTv.visibility = View.VISIBLE
+        } else {
+            btn.visibility = View.GONE
+            errorTv.visibility = View.GONE
+        }
+    }
 }

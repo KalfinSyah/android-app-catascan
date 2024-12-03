@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.capstone.catascan.R
 import com.capstone.catascan.Utils
 import com.capstone.catascan.Utils.getBitmapFromUri
+import com.capstone.catascan.Utils.setFullScreen
 import com.capstone.catascan.databinding.ActivityPreviewBinding
 import com.capstone.catascan.ml.CataractModel
 import org.tensorflow.lite.DataType
@@ -33,15 +34,9 @@ class PreviewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         supportActionBar?.hide()
-
-        @Suppress("DEPRECATION")
-        window.apply {
-            statusBarColor = android.graphics.Color.TRANSPARENT
-            decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        }
+        setContentView(binding.root)
+        setFullScreen(window)
 
         viewModel.fromRecent.value = intent.getStringExtra(EXTRA_RESULT)
 
@@ -50,7 +45,19 @@ class PreviewActivity : AppCompatActivity() {
                 binding.result.visibility = View.VISIBLE
                 binding.scanBtn.visibility = View.GONE
                 binding.textView.text = getString(R.string.preview_or_result, "Result")
-                binding.result.text =  Utils.resultCustomStyling(this, intent.getStringExtra(EXTRA_RESULT) ?: "")
+                val result = it.split(", ")
+                val predictedClassName = result[0]
+                val confidence = result[1]
+                val resultBuff= when (predictedClassName) {
+                    "immature cataract" -> getString(R.string.info_immature)
+                    "mature cataract" -> getString(R.string.info_mature)
+                    else -> getString(R.string.infor_normal)
+                }
+                binding.result.text = Utils.resultCustomStyling(
+                    this,
+                    resultBuff,
+                    confidence
+                )
             }
         }
 
@@ -81,8 +88,8 @@ class PreviewActivity : AppCompatActivity() {
             finish()
         }
         binding.scanBtn.setOnClickListener {
-            viewModel.setResultVisibility.value = true
             classifyImage(viewModel.setCapturedImage.value ?: Uri.EMPTY)
+            viewModel.setResultVisibility.value = true
         }
     }
 
@@ -144,7 +151,7 @@ class PreviewActivity : AppCompatActivity() {
         viewModel.saveToHistory(
             timestamp,
             intent.getStringExtra(EXTRA_CAPTURED_IMAGE).toString(),
-            viewModel.result.value.toString()
+            "$predictedClassName, $confidence"
         )
 
         // Release model resources

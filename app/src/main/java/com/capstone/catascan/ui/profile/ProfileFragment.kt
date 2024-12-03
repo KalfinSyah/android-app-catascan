@@ -1,18 +1,22 @@
 package com.capstone.catascan.ui.profile
 
 import android.Manifest
+import android.app.Application
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -21,9 +25,12 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.capstone.catascan.R
-import com.capstone.catascan.data.pref.SettingPreferences
+import com.capstone.catascan.data.pref.UserPreference
 import com.capstone.catascan.data.pref.dataStore
 import com.capstone.catascan.databinding.FragmentProfileBinding
+import com.capstone.catascan.ui.welcome.WelcomeActivity
+import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class ProfileFragment : Fragment() {
@@ -32,10 +39,14 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
-    private val viewModel: ProfileViewModel by lazy {
-        val pref = SettingPreferences.getInstance(requireContext().dataStore)
-        ViewModelProvider(this, ProfileViewModelFactory(pref))[ProfileViewModel::class.java]
+
+    private val userPreference: UserPreference by lazy {
+        UserPreference.getInstance(requireContext().dataStore)
     }
+    private val viewModel: ProfileViewModel by viewModels {
+        ProfileViewModelFactory(userPreference)
+    }
+
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -56,9 +67,45 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        // code here
+        // Initialize WorkManager
         workManager = WorkManager.getInstance(requireContext())
-        viewModel.getThemeSettings().observe(viewLifecycleOwner) { isDarkModeActive: Boolean ->
+
+        setData()
+        setAction()
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setDropDown()
+    }
+
+    private fun setAction() {
+        // Notification setting toggle
+        binding.notification.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            viewModel.saveDailyReminderSetting(isChecked)
+        }
+
+        // Dark mode setting toggle
+        binding.darkMode.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            viewModel.saveThemeSetting(isChecked)
+        }
+
+        // Logout action
+        binding.logout.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.logout(requireContext(), activity?.application as Application)
+                val intent = Intent(requireContext(), WelcomeActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        }
+    }
+
+    private fun setData() {
+        // Observe and set the theme setting
+        viewModel.getThemeSetting().observe(viewLifecycleOwner) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.darkMode.isChecked = true
@@ -68,7 +115,8 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        viewModel.getDailyReminderSetting().observe(viewLifecycleOwner) { isDailyReminderActive: Boolean ->
+        // Observe and set the daily reminder setting
+        viewModel.getDailyReminderSetting().observe(viewLifecycleOwner) { isDailyReminderActive ->
             if (isDailyReminderActive) {
                 checkNotificationPermission()
                 binding.notification.isChecked = true
@@ -77,30 +125,23 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.notification.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            viewModel.saveDailyReminderSetting(isChecked)
+        // Observe user session data and set the user info
+        viewModel.getUserSession().observe(viewLifecycleOwner) { user ->
+            binding.name.text = getString(R.string.say_hi_to, user.name)
+            binding.email.text = getString(R.string.email, user.email)
         }
 
-        binding.darkMode.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-            viewModel.saveThemeSetting(isChecked)
-        }
-
+        // Load the profile image (placeholder for actual user image URL)
         Glide.with(requireContext())
             .load("https://picsum.photos/200")
             .into(binding.profile)
-        binding.name.text = getString(R.string.say_hi_to, "Testing Nama Panjang")
-        binding.email.text = getString(R.string.email, "testingnamapanja@gmail.com")
-
-        return view
     }
 
     private fun startPeriodicTask() {
-        val data = Data
-            .Builder()
+        val data = Data.Builder()
             .build()
 
-        val constraints = Constraints
-            .Builder()
+        val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
@@ -120,7 +161,10 @@ class ProfileFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             when {
                 // Permission already granted
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED -> {
                     binding.notification.isChecked = true
                     startPeriodicTask()
                 }
@@ -135,6 +179,35 @@ class ProfileFragment : Fragment() {
             binding.notification.isChecked = true
             startPeriodicTask()
         }
+    }
+
+    private fun setDropDown() {
+        val language = resources.getStringArray(R.array.languages)
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, language)
+        binding.dropDownItem.setAdapter(adapter)
+        binding.dropDownItem.setText(language[0], false)
+
+        binding.dropDownItem.setOnItemClickListener { _, _, position, _ ->
+            viewModel.saveLanguageSetting(language[position])
+        }
+
+        viewModel.getLanguageSetting().observe(viewLifecycleOwner) { languageValue ->
+            if (languageValue == "Indonesia") {
+                binding.dropDownItem.setText(language[1], false)
+                setLanguageApp("in")
+            } else {
+                binding.dropDownItem.setText(language[0], false)
+                setLanguageApp("en")
+            }
+        }
+    }
+
+    private fun setLanguageApp(language: String) {
+        val locale = Locale(if (language == "Indonesia") "in" else "en")
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        config.setLayoutDirection(locale)
     }
 
     override fun onDestroyView() {

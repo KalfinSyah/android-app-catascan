@@ -1,0 +1,10 @@
+<!-- res/drawable/card_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:endColor="@color/blue"
+        android:startColor="#86A8C1"
+        android:angle="45"
+        android:type="linear" />
+    <corners android:radius="20dp" />
+</shape>
+

@@ -3,6 +3,7 @@ package com.capstone.catascan.ui.history
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -45,11 +46,28 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
         fun bind(item: History) {
             with(binding) {
+                // for the time
+                tvHistoryTime.text = Utils.formatDateTime(item.timeStamp)
+
+                // for the img
                 Glide.with(itemView.context)
                     .load(item.image)
                     .into(ivHistoryImage)
-                tvHistoryTime.text = Utils.formatDateTime(item.timeStamp)
-                tvHistoryResult.text = Utils.resultCustomStyling(itemView.context, item.result)
+
+                // for the result
+                val result = item.result.split(", ")
+                val predictedClassName = result[0]
+                val confidence = result[1]
+                val resultBuff= when (predictedClassName) {
+                    "immature cataract" -> getString(itemView.context, R.string.info_immature)
+                    "mature cataract" -> getString(itemView.context, R.string.info_mature)
+                    else -> getString(itemView.context, R.string.infor_normal)
+                }
+                tvHistoryResult.text = Utils.resultCustomStyling(
+                    itemView.context,
+                    resultBuff,
+                    confidence
+                )
             }
         }
     }

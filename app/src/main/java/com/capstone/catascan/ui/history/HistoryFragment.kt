@@ -28,6 +28,7 @@ class HistoryFragment : Fragment() {
 
         // code here
         viewModel.getAllHistory().observe(viewLifecycleOwner) {
+            binding.textView6.visibility =  if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
             adapter.setListHistory(it)
         }
         adapter = HistoryAdapter()

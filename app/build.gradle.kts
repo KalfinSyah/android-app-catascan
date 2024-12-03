@@ -20,6 +20,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", "\"efe09bc5bfd3439090d672b6dcda3931\"")
     }
 
     buildTypes {
@@ -43,6 +45,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
         mlModelBinding = true
     }
 }
@@ -99,4 +102,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler.v251)
+
+    // for coroutines
+    implementation(libs.kotlinx.coroutines.android)
 }

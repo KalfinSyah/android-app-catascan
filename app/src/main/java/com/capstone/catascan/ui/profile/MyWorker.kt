@@ -10,37 +10,48 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.capstone.catascan.MainActivity
+import com.capstone.catascan.ui.main.MainActivity
 
-class MyWorker(context: Context, workerParameters: WorkerParameters): Worker(context, workerParameters) {
-    override fun doWork(): Result = getReminder()
+class MyWorker(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
 
-    private fun getReminder(): Result {
-        val notifDetailIntent = Intent(applicationContext, MainActivity::class.java)
-        val pendingIntent = TaskStackBuilder.create(applicationContext).run {
-            addNextIntentWithParentStack(notifDetailIntent)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                getPendingIntent(NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-            } else {
-                getPendingIntent(NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT)
-            }
+    override fun doWork(): Result {
+        return try {
+            getReminder()
+            Result.success()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Result.failure()
         }
+    }
+
+    private fun getReminder() {
+        val notifDetailIntent = Intent(applicationContext, MainActivity::class.java)
+
+        val pendingIntent = TaskStackBuilder.create(applicationContext).apply {
+            addNextIntentWithParentStack(notifDetailIntent)
+        }.getPendingIntent(NOTIFICATION_ID, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notification: NotificationCompat.Builder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+
+        val notificationBuilder = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(com.capstone.catascan.R.drawable.ic_notification)
             .setContentTitle("Catascan")
             .setContentText("Are you worried about your eye health? Scan your eye for free now!")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-            notification.setChannelId(CHANNEL_ID)
-            notificationManager.createNotificationChannel(channel)
-        }
-        notificationManager.notify(NOTIFICATION_ID, notification.build())
 
-        return Result.success()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Notifications for Catascan reminders"
+            }
+            notificationManager.createNotificationChannel(channel)
+            notificationBuilder.setChannelId(CHANNEL_ID)
+        }
+
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     companion object {

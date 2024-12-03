@@ -13,14 +13,13 @@ abstract class HistoryRoomDatabase: RoomDatabase() {
         private var INSTANCE: HistoryRoomDatabase? = null
         @JvmStatic
         fun getDatabase(context: Context): HistoryRoomDatabase {
-            if (INSTANCE == null) {
-                synchronized(HistoryRoomDatabase::class.java) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        HistoryRoomDatabase::class.java, "history_database")
-                        .build()
-                }
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    HistoryRoomDatabase::class.java,
+                    "history_database"
+                ).build().also { INSTANCE = it }
             }
-            return INSTANCE as HistoryRoomDatabase
         }
     }
 }

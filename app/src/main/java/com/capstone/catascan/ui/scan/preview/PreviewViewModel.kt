@@ -5,7 +5,7 @@ import android.net.Uri
 import android.text.Spanned
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.capstone.catascan.HistoryRepository
+import com.capstone.catascan.repository.HistoryRepository
 import com.capstone.catascan.data.history.History
 
 class PreviewViewModel(application: Application): ViewModel() {

@@ -1,4 +1,4 @@
-package com.capstone.catascan
+package com.capstone.catascan.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -18,6 +18,6 @@ class HistoryRepository(application: Application) {
     }
 
     fun getAllHistory(): LiveData<List<History>> = mHistoryDao.getAllHistory()
-
     fun insert(note: History) = executorService.execute { mHistoryDao.insert(note) }
+    fun deleteAll() = executorService.execute { mHistoryDao.deleteAll() }
 }

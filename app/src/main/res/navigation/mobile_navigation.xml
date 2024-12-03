@@ -9,7 +9,12 @@
         android:id="@+id/home"
         android:name="com.capstone.catascan.ui.home.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_scanFragment"
+            app:destination="@id/scan" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/history"
@@ -21,7 +26,11 @@
         android:id="@+id/scan"
         android:name="com.capstone.catascan.ui.scan.ScanFragment"
         android:label="@string/scan"
-        tools:layout="@layout/fragment_scan" />
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scan_to_home2"
+            app:destination="@id/home" />
+    </fragment>
 
     <fragment
         android:id="@+id/profile"
