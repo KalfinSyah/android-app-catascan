@@ -1,9 +1,9 @@
 package com.capstone.catascan.ui.history
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -58,16 +58,15 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
                 val result = item.result.split(", ")
                 val predictedClassName = result[0]
                 val confidence = result[1]
-                val resultBuff= when (predictedClassName) {
-                    "immature cataract" -> getString(itemView.context, R.string.info_immature)
-                    "mature cataract" -> getString(itemView.context, R.string.info_mature)
-                    else -> getString(itemView.context, R.string.infor_normal)
+
+                itemView.setOnClickListener {
+                    val intent = Intent(itemView.context, DetailHistoryActivity::class.java)
+                    intent.putExtra("extra_history_time", item.timeStamp)
+                    intent.putExtra("extra_history_image", item.image)
+                    intent.putExtra("extra_history_predicted_class_name", predictedClassName)
+                    intent.putExtra("extra_history_confidence", confidence)
+                    itemView.context.startActivity(intent)
                 }
-                tvHistoryResult.text = Utils.resultCustomStyling(
-                    itemView.context,
-                    resultBuff,
-                    confidence
-                )
             }
         }
     }

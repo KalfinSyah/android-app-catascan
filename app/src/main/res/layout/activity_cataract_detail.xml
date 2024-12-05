@@ -90,6 +90,7 @@
                 app:backgroundTint="@color/blue"
                 android:elevation="8dp"
                 app:elevation="8dp"
+                android:textColor="#fff"
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"

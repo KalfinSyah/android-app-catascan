@@ -51,7 +51,6 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:backgroundTint="@color/backgorund"
             app:cardElevation="8dp"
             android:layout_gravity="center_horizontal"
             app:cardUseCompatPadding="true"
@@ -85,17 +84,18 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
-                android:background="@drawable/bg_blue_circle"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@color/blue"
-                android:elevation="8dp"
-                app:elevation="8dp"
                 android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="32dp"
-                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_blue_circle"
                 android:backgroundTint="@color/transparent"
-                android:text="@string/back" />
+                android:elevation="8dp"
+                android:text="@string/back"
+                android:textColor="#fff"
+                app:backgroundTint="@color/blue"
+                app:elevation="8dp" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

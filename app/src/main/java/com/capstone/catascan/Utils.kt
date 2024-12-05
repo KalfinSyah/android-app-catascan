@@ -44,9 +44,13 @@ object Utils {
         return File.createTempFile(timeStamp, ".jpg", filesDir)
     }
 
-    fun formatDateTime(dateTimeString: String): String {
+    fun formatDateTime(dateTimeString: String, longPattern: Boolean = false): String {
         val inputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
-        val outputFormatter = SimpleDateFormat("MMMM dd, yyyy, 'at' h:mm a", Locale.getDefault())
+//        val outputFormatter = SimpleDateFormat("MMMM dd, yyyy, 'at' h:mm a", Locale.getDefault())
+        val outputFormatter = SimpleDateFormat(
+            if (longPattern) "MMMM dd, yyyy, 'at' h:mm a" else "M/d/yyyy H:mm",
+            Locale.getDefault()
+        )
         val date = inputFormatter.parse(dateTimeString)!!
         return outputFormatter.format(date)
     }

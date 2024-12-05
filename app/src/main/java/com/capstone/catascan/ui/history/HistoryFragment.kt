@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.capstone.catascan.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
@@ -32,7 +32,7 @@ class HistoryFragment : Fragment() {
             adapter.setListHistory(it)
         }
         adapter = HistoryAdapter()
-        binding.rvHistory .layoutManager = LinearLayoutManager(requireContext())
+        binding.rvHistory.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvHistory.adapter = adapter
         return view
     }
