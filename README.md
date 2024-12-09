@@ -1,8 +1,5 @@
-# PCOS Pal
-Polycystic Ovary Syndrome (PCOS) is a collection of symptoms resulting from a disorder in the endocrine system and this condition is usually seen in reproductive-aged women. This syndrome may cause serious health problems.
-Women who experienced this syndrome may experience infertility, impaired glucose tolerance, depression, Obstructive Sleep Apnea (OSA), increased risk of endometrial cancer and liver disease, diabetes, weight problems, and also possible to give birth to premature babies.
-Many women, particularly in Indonesia, are unaware and they often ignore that they have symptoms or risk factors that increase their likelihood of experiencing PCOS. If not treated seriously, it’ll cause fatal consequences leading to death.
-Therefore, we want to develop an easy-to-use application to help detect possibilities if they are at risk of experiencing PCOS. Although PCOS cannot be completely cured, its symptoms can be controlled and managed with the right treatment and a healthy lifestyle. We chose this case because we want to help reduce the women's death rate from disease.
+# Catascan
+Catascan is an innovative Android application designed to detect and classify the stages of cataracts, such as normal, immature, and mature, using machine learning technology. This project aims to empower vulnerable communities by providing a cost-effective and accessible tool for early cataract detection, promoting timely medical intervention and reducing the prevalence of vision loss due to cataracts.
 
 # Development Setup
 This repository contains the backend RESTful API for the Catascan application, which serves as the interface for performing Create, Read, Update, and Delete (CRUD) operations on the application's database. By leveraging this API, the application can seamlessly interact with the database, enabling users to store, retrieve, update, and delete data related to Catascan. Overall, this repository plays a pivotal role in supporting the functionality and data management of the PCOS Pal application.
