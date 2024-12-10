@@ -13,9 +13,6 @@ data class History(
     @ColumnInfo(name = "id")
     var id: Int = 0,
 
-    @ColumnInfo(name = "time_stamp")
-    var timeStamp: String,
-
     @ColumnInfo(name = "image")
     var image: String,
 

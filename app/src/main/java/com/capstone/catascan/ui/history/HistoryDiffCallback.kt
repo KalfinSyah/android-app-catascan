@@ -12,6 +12,8 @@ class HistoryDiffCallback(private val oldHistoryList: List<History>, private val
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldHistory = oldHistoryList[oldItemPosition]
         val newHistory = newHistoryList[newItemPosition]
-        return oldHistory.timeStamp == newHistory.timeStamp && oldHistory.image == newHistory.image
+        val oldResult = oldHistory.result.split("|")
+        val newResult = newHistory.result.split("|")
+        return oldResult[0] == newResult[0] && oldHistory.image == newHistory.image
     }
 }

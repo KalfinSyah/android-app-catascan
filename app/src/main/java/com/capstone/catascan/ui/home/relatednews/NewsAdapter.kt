@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.capstone.catascan.data.api.ArticlesItem
+import com.capstone.catascan.data.response.ArticlesItem
 import com.capstone.catascan.databinding.ItemNewsBinding
 
 class NewsAdapter: ListAdapter<ArticlesItem, NewsAdapter.MyViewHolder>(DIFF_CALLBACK) {

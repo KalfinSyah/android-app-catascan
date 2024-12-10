@@ -40,14 +40,36 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="16dp"
-                    android:scaleType="centerCrop"
-                    tools:ignore="ContentDescription,ImageContrastCheck"
-                    tools:src="@tools:sample/avatars" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription,ImageContrastCheck"
+                        tools:src="@tools:sample/avatars" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/changeProfileBtn"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/bg_blue_circle"
+                        android:backgroundTint="#AFAFAF"
+                        app:contentPadding="6dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:srcCompat="@drawable/ic_edit_pen"
+                        tools:ignore="ImageContrastCheck" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,31 +104,31 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dropDown"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
-            android:padding="0dp"
             android:background="@drawable/bottom_border"
             android:orientation="horizontal"
-            app:startIconDrawable="@drawable/ic_language"
-            app:startIconTint="@color/icon"
+            android:padding="0dp"
             app:endIconTint="@color/icon"
             app:layout_constraintEnd_toEndOf="@id/frameLayout"
             app:layout_constraintStart_toStartOf="@+id/frameLayout"
-            app:layout_constraintTop_toBottomOf="@id/frameLayout">
+            app:layout_constraintTop_toBottomOf="@id/frameLayout"
+            app:startIconDrawable="@drawable/ic_language"
+            app:startIconTint="@color/icon">
 
             <AutoCompleteTextView
                 android:id="@+id/dropDownItem"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="@color/transparent"
                 android:inputType="none"
                 android:padding="0dp"
-                android:layout_gravity="center"
-                tools:ignore="LabelFor,TextContrastCheck,TouchTargetSizeCheck" />
+                tools:ignore="LabelFor,TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -142,18 +164,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:textColor="@color/setting_item"
-                    android:text="@string/notification" />
+                    android:text="@string/notification"
+                    android:textColor="@color/setting_item" />
             </LinearLayout>
 
             <Switch
                 android:id="@+id/notification"
-                android:thumbTint="@color/color_switch_track"
-                android:trackTint="@color/color_switch_thumb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:thumbTint="@color/color_switch_track"
+                android:trackTint="@color/color_switch_thumb"
                 tools:ignore="UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck,DuplicateSpeakableTextCheck" />
 
         </LinearLayout>
@@ -190,18 +212,18 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:textColor="@color/setting_item"
-                    android:text="@string/dark_mode" />
+                    android:text="@string/dark_mode"
+                    android:textColor="@color/setting_item" />
             </LinearLayout>
 
             <Switch
                 android:id="@+id/darkMode"
-                android:thumbTint="@color/color_switch_track"
-                android:trackTint="@color/color_switch_thumb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:thumbTint="@color/color_switch_track"
+                android:trackTint="@color/color_switch_thumb"
                 tools:ignore="UseSwitchCompatOrMaterialXml,TouchTargetSizeCheck" />
         </LinearLayout>
 
@@ -210,21 +232,30 @@
             android:layout_width="140dp"
             android:layout_height="45dp"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="100dp"
             android:layout_weight="1"
             android:backgroundTint="#BD4C4C"
+            android:elevation="8dp"
             android:gravity="center"
             android:text="@string/logout"
-            android:textStyle="bold"
-            android:elevation="8dp"
-            app:elevation="8dp"
-            app:cornerRadius="40dp"
             android:textColor="@color/button_logout"
+            android:textStyle="bold"
+            app:cornerRadius="40dp"
+            app:elevation="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
             app:layout_constraintStart_toStartOf="@+id/linearLayout3"
             app:layout_constraintTop_toBottomOf="@id/linearLayout3"
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="TouchTargetSizeCheck" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -3,6 +3,7 @@ package com.capstone.catascan.ui.scan.preview
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,9 @@ import com.capstone.catascan.R
 import com.capstone.catascan.Utils
 import com.capstone.catascan.Utils.getBitmapFromUri
 import com.capstone.catascan.Utils.setFullScreen
+import com.capstone.catascan.Utils.uriToFile
+import com.capstone.catascan.data.pref.UserPreference
+import com.capstone.catascan.data.pref.dataStore
 import com.capstone.catascan.databinding.ActivityPreviewBinding
 import com.capstone.catascan.ml.CataractModel
 import org.tensorflow.lite.DataType
@@ -24,12 +28,17 @@ import java.util.Locale
 
 
 class PreviewActivity : AppCompatActivity() {
+
     private val binding by lazy {
         ActivityPreviewBinding.inflate(layoutInflater)
     }
 
+    private val userPreference: UserPreference by lazy {
+        UserPreference.getInstance(dataStore)
+    }
+
     private val viewModel: PreviewViewModel by viewModels {
-        PreviewViewModelFactory.getInstance(application)
+        PreviewViewModelFactory(userPreference, application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,16 +47,18 @@ class PreviewActivity : AppCompatActivity() {
         setContentView(binding.root)
         setFullScreen(window)
 
-        viewModel.fromRecent.value = intent.getStringExtra(EXTRA_RESULT)
+        viewModel.loading.observe(this) {
+            binding.progressBar2.visibility = if (it == true) View.VISIBLE else View.GONE
+        }
 
         viewModel.fromRecent.observe(this) {
             if (!it.isNullOrBlank()) {
                 binding.result.visibility = View.VISIBLE
                 binding.scanBtn.visibility = View.GONE
                 binding.textView.text = getString(R.string.preview_or_result, "Result")
-                val result = it.split(", ")
-                val predictedClassName = result[0]
-                val confidence = result[1]
+                val result = it.split("|")
+                val predictedClassName = result[1]
+                val confidence = result[2]
                 val resultBuff= when (predictedClassName) {
                     "immature cataract" -> getString(R.string.info_immature)
                     "mature cataract" -> getString(R.string.info_mature)
@@ -78,15 +89,44 @@ class PreviewActivity : AppCompatActivity() {
                 .load(it)
                 .into(binding.capturedImage)
         }
-        viewModel.setCapturedImage.value = intent.getStringExtra(EXTRA_CAPTURED_IMAGE)?.toUri()
+
         viewModel.result.observe(this) {
             binding.result.text = it
         }
 
-        binding.textView.text = getString(R.string.preview_or_result, "Preview")
-        binding.imageButton.setOnClickListener {
-            finish()
+        viewModel.getUserSession().observe(this) {
+            viewModel.tokenBuffer.value = it.token
         }
+
+        viewModel.dataHistory.observe(this) {
+            if (it.isNotEmpty()) {
+                // save cloud
+                viewModel.uploadHistory(
+                    uriToFile(it[0].toUri(),this),
+                    it[1],
+                    viewModel.tokenBuffer.value.toString()
+                )
+                Log.d("kkkk", "inside dataHistory observe is not empty")
+            }
+        }
+
+        viewModel.popupMessage.observe(this) {
+            if (it.isNotEmpty() && it == "History Uploaded") {
+                viewModel.popupMessage.value = ""
+                viewModel.dataHistory.value = mutableListOf()
+            } else if (it.isNotEmpty() && it != "History Uploaded"){
+                viewModel.popupMessage.value = ""
+                viewModel.dataHistory.value = mutableListOf()
+            }
+        }
+
+        viewModel.fromRecent.value = intent.getStringExtra(EXTRA_RESULT)
+        viewModel.setCapturedImage.value = intent.getStringExtra(EXTRA_CAPTURED_IMAGE)?.toUri()
+
+        binding.textView.text = getString(R.string.preview_or_result, "Preview")
+
+        binding.imageButton.setOnClickListener { finish() }
+
         binding.scanBtn.setOnClickListener {
             classifyImage(viewModel.setCapturedImage.value ?: Uri.EMPTY)
             viewModel.setResultVisibility.value = true
@@ -148,11 +188,21 @@ class PreviewActivity : AppCompatActivity() {
 
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
         val timestamp = formatter.format(Date())
+
+        // save local
         viewModel.saveToHistory(
-            timestamp,
             intent.getStringExtra(EXTRA_CAPTURED_IMAGE).toString(),
-            "$predictedClassName, $confidence"
+            "$timestamp|$predictedClassName|$confidence"
         )
+
+        // Add data to the list
+        viewModel.dataHistory.value?.apply {
+            add(intent.getStringExtra(EXTRA_CAPTURED_IMAGE).toString())
+            add("$timestamp|$predictedClassName|$confidence")
+        }
+
+        // Notify observers of the change
+        viewModel.dataHistory.postValue(viewModel.dataHistory.value)
 
         // Release model resources
         model.close()

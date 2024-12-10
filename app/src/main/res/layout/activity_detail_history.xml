@@ -75,12 +75,13 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@color/backgorund"
                 android:gravity="center"
-                android:paddingTop="32dp"
-                android:paddingBottom="32dp"
                 android:paddingStart="32dp"
+                android:paddingTop="32dp"
                 android:paddingEnd="32dp"
+                android:paddingBottom="32dp"
                 android:text="@string/dummy"
-                android:textColor="@color/setting_item" />
+                android:textColor="@color/setting_item"
+                android:textSize="24sp" />
         </androidx.cardview.widget.CardView>
 
 

@@ -1,7 +1,6 @@
 package com.capstone.catascan.ui.scan
 
 import android.Manifest
-import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -25,6 +24,8 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.capstone.catascan.R
 import com.capstone.catascan.Utils.createCustomTempFile
+import com.capstone.catascan.data.pref.UserPreference
+import com.capstone.catascan.data.pref.dataStore
 import com.capstone.catascan.databinding.FragmentScanBinding
 import com.capstone.catascan.ui.scan.preview.PreviewActivity
 
@@ -39,9 +40,14 @@ class ScanFragment : Fragment() {
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
 
+    // user preference
+    private val userPreference: UserPreference by lazy {
+        UserPreference.getInstance(requireContext().dataStore)
+    }
+
     // view model
     private val viewModel: ScanViewModel by viewModels {
-        ScanViewModelFactory.getInstance(activity?.application as Application)
+        ScanViewModelFactory(userPreference)
     }
 
     // for permission
@@ -88,7 +94,7 @@ class ScanFragment : Fragment() {
             binding.imageView4
         )
 
-        viewModel.getAllHistory().observe(viewLifecycleOwner) {
+        viewModel.historyItem.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 val marginBottom = resources.getDimensionPixelSize(R.dimen.linearLayoutForScan)
                 val params = binding.linearLayout.layoutParams as ViewGroup.MarginLayoutParams
@@ -97,14 +103,13 @@ class ScanFragment : Fragment() {
                 for (i in it.take(4).toMutableList().indices) {
                     if (i <= 4) {
                         recentImages[i].visibility = View.VISIBLE
-                        setRecent(recentImages[i], it[i].image, it[i].result)
+                        setRecent(recentImages[i], it[i].imageUrl, it[i].result)
                     }
                 }
             } else {
                 for (i in recentImages.indices) {
                     recentImages[i].visibility = View.GONE
                 }
-
                 val actionBarSize = TypedValue()
                 requireContext().theme.resolveAttribute(android.R.attr.actionBarSize, actionBarSize, true)
                 val marginBottom = actionBarSize.getDimension(resources.displayMetrics).toInt()
@@ -118,6 +123,10 @@ class ScanFragment : Fragment() {
             }
         }
 
+
+        viewModel.getUserSession().observe(viewLifecycleOwner) {
+            viewModel.getAllCloudHistory(it.token)
+        }
 
         return view
     }

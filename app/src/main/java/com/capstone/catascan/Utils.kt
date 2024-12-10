@@ -19,6 +19,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -39,6 +41,18 @@ object Utils {
         return imageBitmap
     }
 
+    fun uriToFile(imageUri: Uri, context: Context): File {
+        val myFile = createCustomTempFile(context)
+        val inputStream = context.contentResolver.openInputStream(imageUri) as InputStream
+        val outputStream = FileOutputStream(myFile)
+        val buffer = ByteArray(1024)
+        var length: Int
+        while (inputStream.read(buffer).also { length = it } > 0) outputStream.write(buffer, 0, length)
+        outputStream.close()
+        inputStream.close()
+        return myFile
+    }
+
     fun createCustomTempFile(context: Context): File {
         val filesDir = context.externalCacheDir
         return File.createTempFile(timeStamp, ".jpg", filesDir)
@@ -46,9 +60,8 @@ object Utils {
 
     fun formatDateTime(dateTimeString: String, longPattern: Boolean = false): String {
         val inputFormatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
-//        val outputFormatter = SimpleDateFormat("MMMM dd, yyyy, 'at' h:mm a", Locale.getDefault())
         val outputFormatter = SimpleDateFormat(
-            if (longPattern) "MMMM dd, yyyy, 'at' h:mm a" else "M/d/yyyy H:mm",
+            if (longPattern) "MMMM dd, yyyy, 'at' H:mm" else "M/d/yyyy H:mm",
             Locale.getDefault()
         )
         val date = inputFormatter.parse(dateTimeString)!!

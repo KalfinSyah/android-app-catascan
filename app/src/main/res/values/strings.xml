@@ -5,7 +5,7 @@
     <string name="scan">Scan</string>
     <string name="history">History</string>
     <string name="home">Home</string>
-    <string name="say_hi_to">Hi, %s!</string>
+    <string name="say_hi_to">Hello, %s!</string>
     <string name="email">%s</string>
     <string name="notification">Notification</string>
     <string name="dark_mode">Dark Mode</string>
@@ -169,4 +169,10 @@
     <string name="invalid_email">invalid email</string>
     <string name="password_must_be_at_least_8_characters">password must be at least 8 characters</string>
     <string name="by_continuing_terms">By continuing, you agree to our Terms of Service and Privacy Policy</string>
+
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+
+    <string name="titlechangepict">Change Profile Picture</string>
+    <string name="changepict">Did you want to change your profile picture?</string>
 </resources>

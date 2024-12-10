@@ -15,6 +15,7 @@ import com.capstone.catascan.repository.HistoryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.util.Locale
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -49,7 +50,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             }
             .map { preferences ->
                 UserModel(
-                    preferences[NAME_KEY] ?: "",
                     preferences[EMAIL_KEY] ?: "",
                     preferences[TOKEN_KEY] ?: "",
                     preferences[IS_LOGIN_KEY] ?: false
@@ -60,7 +60,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     suspend fun saveSession(user: UserModel) {
         try {
             dataStore.edit { preferences ->
-                preferences[NAME_KEY] = user.name
                 preferences[EMAIL_KEY] = user.email
                 preferences[TOKEN_KEY] = user.token
                 preferences[IS_LOGIN_KEY] = true
@@ -79,10 +78,9 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 emit(emptyPreferences())
             }
             .map { preferences ->
-                preferences[LANGUAGE_KEY] ?: "English"
+                preferences[LANGUAGE_KEY] ?: Locale.getDefault().language
             }
     }
-
     suspend fun saveLanguageSetting(language: String) {
         try {
             dataStore.edit { preferences ->
@@ -148,7 +146,6 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         private val DAILY_REMINDER_KEY = booleanPreferencesKey("daily_reminder_setting")
         private val LANGUAGE_KEY = stringPreferencesKey("language_setting")
 
-        private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")

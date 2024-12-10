@@ -54,7 +54,15 @@ class RegisterActivity : AppCompatActivity() {
                 showAlertDialogAndDoAction(it) {
                     val loginResult = viewModel.loginResult.value
                     lifecycleScope.launch {
-                        viewModel.saveSession(UserModel(loginResult!!.name, binding.emailEditText.text.toString(), loginResult.token))
+                        if (loginResult != null) {
+                            viewModel.saveSession(
+                                UserModel(
+                                    binding.emailEditText.text.toString(),
+                                    loginResult.token,
+                                    true
+                                )
+                            )
+                        }
                         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -67,8 +75,15 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         viewModel.agreeTerms.observe(this) {
-            binding.registenButton.isEnabled = it
-            binding.termsCheckBox.isChecked = it
+            val updatedList = viewModel.registerButtonEnabler.value?.toMutableList()
+            updatedList?.set(3, it == true)
+            viewModel.registerButtonEnabler.value = updatedList
+
+        }
+
+        viewModel.registerButtonEnabler.observe(this) {
+            println("VAL IT ENABLER : $it")
+            binding.registenButton.isEnabled = it[0]==true && it[1]==true && it[2]==true && it[3]==true
         }
     }
 
@@ -79,28 +94,39 @@ class RegisterActivity : AppCompatActivity() {
         }
         binding.usernameEditText.doOnTextChanged { text, _, _, _ ->
             binding.edRegisterName.error = if (text.isNullOrBlank()) getString(R .string.username_cannot_be_empty) else null
+            val updatedList = viewModel.registerButtonEnabler.value?.toMutableList()
+            updatedList?.set(0, !text.isNullOrBlank())
+            viewModel.registerButtonEnabler.value = updatedList
         }
         binding.emailEditText.doOnTextChanged { text, _, _, _ ->
             binding.edRegisterEmail.error = if (!Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches()) getString(R.string.invalid_email) else null
+            val updatedList = viewModel.registerButtonEnabler.value?.toMutableList()
+            updatedList?.set(1, Patterns.EMAIL_ADDRESS.matcher(text.toString()).matches())
+            viewModel.registerButtonEnabler.value = updatedList
         }
         binding.passwordEditText.doOnTextChanged { text, _, _, _ ->
             binding.edRegisterPassword.error = if (text.isNullOrBlank() || text.length < 8) getString(R.string.password_must_be_at_least_8_characters) else null
+            val updatedList = viewModel.registerButtonEnabler.value?.toMutableList()
+            updatedList?.set(2, !(text.isNullOrBlank() || text.length < 8))
+            viewModel.registerButtonEnabler.value = updatedList
         }
         binding.registenButton.setOnClickListener {
             viewModel.register(
-                binding.usernameEditText.text.toString(),
-                binding.emailEditText.text.toString(),
-                binding.passwordEditText.text.toString()
+                mapOf(
+                    "name" to binding.usernameEditText.text.toString(),
+                    "email" to binding.emailEditText.text.toString(),
+                    "password" to binding.passwordEditText.text.toString()
+                )
             )
         }
         binding.termsCheckBox.setOnClickListener {
-            binding.registenButton.isEnabled = binding.termsCheckBox.isChecked
             viewModel.agreeTerms.value = binding.termsCheckBox.isChecked
         }
     }
 
     private fun setAnimation() {
         val titleAnim = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(200)
+        val regisImageAnim = ObjectAnimator.ofFloat(binding.signupImageView, View.ALPHA, 1f).setDuration(200)
         val createAccountAnim = ObjectAnimator.ofFloat(binding.createAccountTextView, View.ALPHA, 1f).setDuration(200)
         val registerTextAnim = ObjectAnimator.ofFloat(binding.registerTextView, View.ALPHA, 1f).setDuration(200)
         val nameAnim = ObjectAnimator.ofFloat(binding.edRegisterName, View.ALPHA, 1f).setDuration(200)
@@ -113,6 +139,7 @@ class RegisterActivity : AppCompatActivity() {
         AnimatorSet().apply {
             playSequentially(
                 titleAnim,
+                regisImageAnim,
                 createAccountAnim,
                 registerTextAnim,
                 nameAnim,

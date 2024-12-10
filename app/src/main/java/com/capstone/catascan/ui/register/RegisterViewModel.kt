@@ -7,7 +7,6 @@ import com.capstone.catascan.data.UserModel
 import com.capstone.catascan.data.api.ApiConfig
 import com.capstone.catascan.data.pref.UserPreference
 import com.capstone.catascan.data.response.LoginResponse
-import com.capstone.catascan.data.response.LoginResult
 import com.capstone.catascan.data.response.RegisterResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,11 +20,14 @@ class RegisterViewModel(private val pref: UserPreference): ViewModel() {
     private val _popupMessage = MutableLiveData<String>().apply { value = "" }
     val popupMessage: LiveData<String> = _popupMessage
 
-    private val _loginResult = MutableLiveData<LoginResult?>()
-    val loginResult: LiveData<LoginResult?> = _loginResult
+    private val _loginResult = MutableLiveData<LoginResponse>()
+    val loginResult: LiveData<LoginResponse> = _loginResult
 
     val initiateAutoLogin = MutableLiveData<Boolean>().apply { value = false }
     val agreeTerms = MutableLiveData<Boolean>().apply { value = false }
+
+    val registerButtonEnabler = MutableLiveData(mutableListOf(false, false, false, false))
+
 
 
     suspend fun saveSession(user: UserModel) {
@@ -33,10 +35,10 @@ class RegisterViewModel(private val pref: UserPreference): ViewModel() {
     }
 
 
-    fun register(name: String, email: String, password: String) {
+    fun register(registerData: Map<String, String>) {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiServiceForAuth().register(name, email, password)
+        val client = ApiConfig.getApiServiceForAuth().register(registerData)
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
                 call: Call<RegisterResponse>,
@@ -44,7 +46,12 @@ class RegisterViewModel(private val pref: UserPreference): ViewModel() {
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    login(email, password)
+                    login(
+                        mapOf(
+                            "email" to registerData["email"]!!,
+                            "password" to registerData["password"]!!
+                        )
+                    )
                 } else {
                     _popupMessage.value = "${response.message()}\nPossibility: email already exists, invalid email format, password contains less than 8 char, server error"
                 }
@@ -58,10 +65,10 @@ class RegisterViewModel(private val pref: UserPreference): ViewModel() {
         })
     }
 
-    fun login(email: String, password: String) {
+    fun login(loginData: Map<String, String>) {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiServiceForAuth().login(email, password)
+        val client = ApiConfig.getApiServiceForAuth().login(loginData)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,
@@ -70,10 +77,10 @@ class RegisterViewModel(private val pref: UserPreference): ViewModel() {
                 _isLoading.value = false
                 if (response.isSuccessful) {
                     _popupMessage.value = "Register Success"
-                    _loginResult.value = response.body()?.loginResult
+                    _loginResult.value = response.body()
                 } else {
                     println("${response.code()}, ${response.message()}")
-                    _popupMessage.value = "Error Auto Login! Probably you input the wrong wrong email or password,  or the server error."
+                    _popupMessage.value = "Error Auto Login! Probably you input the wrong email or password,  or the server error."
                     initiateAutoLogin.value = false
                 }
             }

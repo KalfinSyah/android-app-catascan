@@ -3,7 +3,7 @@ package com.capstone.catascan.ui.history
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.capstone.catascan.R
 import com.capstone.catascan.Utils.formatDateTime
 import com.capstone.catascan.Utils.resultCustomStyling
@@ -35,7 +35,9 @@ class DetailHistoryActivity : AppCompatActivity() {
         }
 
         binding.textView.text = formatDateTime(historyTime.toString(), true)
-        binding.imageView.setImageURI(historyImage?.toUri())
+        Glide.with(this)
+            .load(historyImage)
+            .into(binding.imageView)
         binding.textView2.text = resultCustomStyling(
             this,
             resultBuff,

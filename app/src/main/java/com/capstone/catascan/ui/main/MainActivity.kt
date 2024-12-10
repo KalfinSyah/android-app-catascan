@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
     private fun setLanguage() {
         userPreference.getLanguageSetting().asLiveData().observe(this@MainActivity) { language ->
             val currentLocale = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-            val newLocale = if (language == "Indonesia") "in" else "en"
+            val newLocale = if (language == "Indonesia" || language == "in") "in" else "en"
 
             if (currentLocale != newLocale) {
                 AppCompatDelegate.setApplicationLocales(

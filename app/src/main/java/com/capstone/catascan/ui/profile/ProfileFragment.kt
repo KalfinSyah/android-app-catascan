@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -25,6 +29,7 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.capstone.catascan.R
+import com.capstone.catascan.Utils.uriToFile
 import com.capstone.catascan.data.pref.UserPreference
 import com.capstone.catascan.data.pref.dataStore
 import com.capstone.catascan.databinding.FragmentProfileBinding
@@ -35,18 +40,23 @@ import java.util.concurrent.TimeUnit
 
 class ProfileFragment : Fragment() {
 
+    // binding
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var workManager: WorkManager
-    private lateinit var periodicWorkRequest: PeriodicWorkRequest
 
+    // preference
     private val userPreference: UserPreference by lazy {
         UserPreference.getInstance(requireContext().dataStore)
     }
+
+    // view model
     private val viewModel: ProfileViewModel by viewModels {
         ProfileViewModelFactory(userPreference)
     }
 
+    // notification
+    private lateinit var workManager: WorkManager
+    private lateinit var periodicWorkRequest: PeriodicWorkRequest
     private val requestNotificationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -60,19 +70,16 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        // Initialize WorkManager
         workManager = WorkManager.getInstance(requireContext())
-
         setData()
         setAction()
-
         return view
     }
 
@@ -92,7 +99,7 @@ class ProfileFragment : Fragment() {
             viewModel.saveThemeSetting(isChecked)
         }
 
-        // Logout action
+        // Logout
         binding.logout.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.logout(requireContext(), activity?.application as Application)
@@ -101,10 +108,30 @@ class ProfileFragment : Fragment() {
                 requireActivity().finish()
             }
         }
+
+        // change profile
+        binding.changeProfileBtn.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.titlechangepict))
+                .setMessage(getString(R.string.changepict))
+                .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                    dialog.dismiss()
+                    startGallery()
+                }
+                .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
 
     private fun setData() {
-        // Observe and set the theme setting
+
+        viewModel.showProgressBar.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it == true) View.VISIBLE else View.GONE
+        }
+
+        // set the theme setting
         viewModel.getThemeSetting().observe(viewLifecycleOwner) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -115,7 +142,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Observe and set the daily reminder setting
+        //  set the daily reminder setting
         viewModel.getDailyReminderSetting().observe(viewLifecycleOwner) { isDailyReminderActive ->
             if (isDailyReminderActive) {
                 checkNotificationPermission()
@@ -125,16 +152,51 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        // Observe user session data and set the user info
+        // set the tokenBuffer, and getUserData
         viewModel.getUserSession().observe(viewLifecycleOwner) { user ->
-            binding.name.text = getString(R.string.say_hi_to, user.name)
-            binding.email.text = getString(R.string.email, user.email)
+            viewModel.tokenBuffer.value = user.token
+            viewModel.getUserData(user.token)
         }
 
-        // Load the profile image (placeholder for actual user image URL)
-        Glide.with(requireContext())
-            .load("https://picsum.photos/200")
-            .into(binding.profile)
+
+        // upload profile to cloud if the uri is not null
+        viewModel.uriBuffer.observe(viewLifecycleOwner) {
+            if (it != null) {
+                viewModel.uploadProfile(
+                    viewModel.tokenBuffer.value.toString(),
+                    uriToFile(it, requireContext())
+                )
+            }
+        }
+
+
+
+        // after perform getUserData,
+        // the getUserResult value will change
+        // and load it name, email
+        viewModel.getUserResult.observe(viewLifecycleOwner) {
+            Glide.with(requireContext())
+                .load(it?.profileImageUrl ?: "https://picsum.photos/200")
+                .into(binding.profile)
+            binding.name.text = getString(R.string.say_hi_to, it.name)
+            binding.email.text = it.email
+        }
+
+
+        // only show popup after change the profile
+        viewModel.popupMessage.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty() && it == "Change Profile Success") {
+                showAlertDialogAndDoAction(it) {
+                    viewModel.getUserData(viewModel.tokenBuffer.value.toString())
+                    viewModel.uriBuffer.value = null
+                    viewModel.popupMessage.value = ""
+                }
+            } else if (it.isNotEmpty() && it != "Change Profile Success"){
+                showAlertDialogAndDoAction(it)
+                viewModel.uriBuffer.value = null
+                viewModel.popupMessage.value = ""
+            }
+        }
     }
 
     private fun startPeriodicTask() {
@@ -192,22 +254,51 @@ class ProfileFragment : Fragment() {
         }
 
         viewModel.getLanguageSetting().observe(viewLifecycleOwner) { languageValue ->
-            if (languageValue == "Indonesia") {
-                binding.dropDownItem.setText(language[1], false)
-                setLanguageApp("in")
-            } else {
-                binding.dropDownItem.setText(language[0], false)
-                setLanguageApp("en")
+            when (languageValue) {
+                "Indonesia", "in" -> {
+                    binding.dropDownItem.setText(language[1], false)
+                    setLanguageApp("in")
+                }
+                else -> {
+                    binding.dropDownItem.setText(language[0], false)
+                    setLanguageApp("en")
+                }
             }
         }
     }
 
     private fun setLanguageApp(language: String) {
-        val locale = Locale(if (language == "Indonesia") "in" else "en")
+        val locale = Locale(language)
         Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         config.setLayoutDirection(locale)
+    }
+
+    private fun startGallery() {
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            viewModel.uriBuffer.value = uri
+        } else {
+            Toast.makeText(requireContext(), "No media selected", Toast.LENGTH_SHORT)
+        }
+    }
+
+    private fun showAlertDialogAndDoAction(message: String, action: () -> Unit = {}): Boolean {
+        val alertDialog = AlertDialog.Builder(requireContext())
+        alertDialog.setTitle("Message")
+        alertDialog.setMessage(message)
+        alertDialog.setPositiveButton("Ok") { dialog, _ ->
+            dialog.dismiss()
+            action()
+        }
+        alertDialog.create().show()
+        return true
     }
 
     override fun onDestroyView() {

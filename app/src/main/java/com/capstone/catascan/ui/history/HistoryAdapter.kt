@@ -46,22 +46,21 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
         fun bind(item: History) {
             with(binding) {
-                // for the time
-                tvHistoryTime.text = Utils.formatDateTime(item.timeStamp)
-
                 // for the img
                 Glide.with(itemView.context)
                     .load(item.image)
                     .into(ivHistoryImage)
 
                 // for the result
-                val result = item.result.split(", ")
-                val predictedClassName = result[0]
-                val confidence = result[1]
+                val result = item.result.split("|")
+                tvHistoryTime.text = Utils.formatDateTime(result[0])
+                val timestamp = result[0]
+                val predictedClassName = result[1]
+                val confidence = result[2]
 
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailHistoryActivity::class.java)
-                    intent.putExtra("extra_history_time", item.timeStamp)
+                    intent.putExtra("extra_history_time", timestamp)
                     intent.putExtra("extra_history_image", item.image)
                     intent.putExtra("extra_history_predicted_class_name", predictedClassName)
                     intent.putExtra("extra_history_confidence", confidence)

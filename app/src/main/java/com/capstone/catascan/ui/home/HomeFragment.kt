@@ -14,18 +14,28 @@ import com.capstone.catascan.R
 import com.capstone.catascan.Utils.setBtnRetryAndErrorMsg
 import com.capstone.catascan.Utils.setLoading
 import com.capstone.catascan.data.CataractType
-import com.capstone.catascan.data.api.ArticlesItem
+import com.capstone.catascan.data.pref.UserPreference
+import com.capstone.catascan.data.pref.dataStore
+import com.capstone.catascan.data.response.ArticlesItem
 import com.capstone.catascan.databinding.FragmentHomeBinding
 import com.capstone.catascan.ui.home.cataractprevention.DetailPreventActivity
 import com.capstone.catascan.ui.home.cataracttypes.CataractAdapter
 import com.capstone.catascan.ui.home.relatednews.NewsAdapter
 
 class HomeFragment : Fragment() {
+
+    // binding
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    // user preference
+    private val userPreference: UserPreference by lazy {
+        UserPreference.getInstance(requireContext().dataStore)
+    }
+
+    // viewmodel
     private val viewModel by viewModels<HomeViewModel> {
-        HomeViewModelFactory(activity?.application as Application)
+        HomeViewModelFactory(userPreference, activity?.application as Application)
     }
 
     override fun onCreateView(
@@ -42,10 +52,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setData() {
-        Glide.with(requireContext())
-            .load("https://picsum.photos/200")
-            .into(binding.profileImage)
-
         viewModel.isLoading.observe(viewLifecycleOwner) {
             setLoading(binding.progressBar, it)
         }
@@ -54,9 +60,19 @@ class HomeFragment : Fragment() {
             setNews(it)
         }
 
-
         viewModel.errMsg.observe(viewLifecycleOwner) {
             setBtnRetryAndErrorMsg(binding.retryButton, binding.errorMsg, it)
+        }
+
+        viewModel.getUserSession().observe(viewLifecycleOwner) {
+            viewModel.getUserData(it.token)
+        }
+
+        viewModel.getUserResult.observe(viewLifecycleOwner) {
+            binding.username.text = it.name
+            Glide.with(requireContext())
+                .load( it?.profileImageUrl ?: "https://picsum.photos/200")
+                .into(binding.profileImage)
         }
     }
 

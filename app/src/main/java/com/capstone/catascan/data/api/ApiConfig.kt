@@ -21,7 +21,7 @@ class ApiConfig {
             val client = OkHttpClient.Builder()
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://story-api.dicoding.dev/v1/")
+                .baseUrl("http://34.101.227.22:8080/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

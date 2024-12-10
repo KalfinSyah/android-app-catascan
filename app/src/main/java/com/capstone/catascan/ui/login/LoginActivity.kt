@@ -54,7 +54,15 @@ class LoginActivity : AppCompatActivity() {
                 showAlertDialogAndDoAction(it) {
                     val loginResult = viewModel.loginResult.value
                     lifecycleScope.launch {
-                        viewModel.saveSession(UserModel(loginResult!!.name, binding.emailEditText.text.toString(), loginResult.token))
+                        if (loginResult != null) {
+                            viewModel.saveSession(
+                                UserModel(
+                                    binding.emailEditText.text.toString(),
+                                    loginResult.token,
+                                    true
+                                )
+                            )
+                        }
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -82,29 +90,32 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.loginButton.setOnClickListener {
             viewModel.login(
-                binding.emailEditText.text.toString(),
-                binding.passwordEditText.text.toString()
+                mapOf(
+                    "email" to binding.emailEditText.text.toString(),
+                    "password" to binding.passwordEditText.text.toString()
+                )
             )
         }
     }
 
     private fun setAnimation() {
-        val loginAccountAnim = ObjectAnimator.ofFloat(binding.loginAccountTextView, View.ALPHA, 0f, 1f).setDuration(200)
-        val loginTextAnim = ObjectAnimator.ofFloat(binding.LoginTextView, View.ALPHA, 0f, 1f).setDuration(200)
-        val titleTextAnim = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 0f, 1f).setDuration(200)
-        val loginEmailAnim = ObjectAnimator.ofFloat(binding.edLoginEmail, View.ALPHA, 0f, 1f).setDuration(200)
-        val passwordAnim = ObjectAnimator.ofFloat(binding.edLoginPassword, View.ALPHA, 0f, 1f).setDuration(200)
-//        val termsLayoutAnim = ObjectAnimator.ofFloat(binding.termsLayout, View.ALPHA, 0f, 1f).setDuration(200)
-        val loginButtonAnim = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 0f, 1f).setDuration(200)
+
+        val titleTextAnim = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(200)
+        val regisImgAnim = ObjectAnimator.ofFloat(binding.authImageView, View.ALPHA, 1f).setDuration(200)
+        val loginAccountAnim = ObjectAnimator.ofFloat(binding.loginAccountTextView, View.ALPHA, 1f).setDuration(200)
+        val loginTextAnim = ObjectAnimator.ofFloat(binding.LoginTextView, View.ALPHA, 1f).setDuration(200)
+        val loginEmailAnim = ObjectAnimator.ofFloat(binding.edLoginEmail, View.ALPHA, 1f).setDuration(200)
+        val passwordAnim = ObjectAnimator.ofFloat(binding.edLoginPassword, View.ALPHA, 1f).setDuration(200)
+        val loginButtonAnim = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(200)
 
         AnimatorSet().apply {
             playSequentially(
+                titleTextAnim,
+                regisImgAnim,
                 loginAccountAnim,
                 loginTextAnim,
-                titleTextAnim,
                 loginEmailAnim,
                 passwordAnim,
-//                termsLayoutAnim,
                 loginButtonAnim
             )
             start()

@@ -5,7 +5,7 @@
     <string name="scan">Pindai</string>
     <string name="history">Riwayat</string>
     <string name="home">Beranda</string>
-    <string name="say_hi_to">Hai, %s!</string>
+    <string name="say_hi_to">Halo, %s!</string>
     <string name="email">%s</string>
     <string name="notification">Notifikasi</string>
     <string name="dark_mode">Mode Gelap</string>
@@ -48,7 +48,7 @@
     <string name="agree_to_terms_and_conditions">Setuju dengan syarat dan ketentuan.</string>
 
 
-    <string name="hello">Hai,</string>
+    <string name="hello">Halo,</string>
     <string name="cataners">Cataners!</string>
     <string name="tips_to_prevent_cataracts_and_protect_eye_nhealth">Tips untuk mencegah katarak dan melindungi kesehatan mata</string>
     <string name="search_hint">search....</string>
@@ -122,4 +122,10 @@
     <string name="invalid_email">email tidak valid</string>
     <string name="password_must_be_at_least_8_characters">password harus memiliki minimal 8 karakter</string>
     <string name="by_continuing_terms">Dengan melanjutkan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.</string>
+
+    <string name="yes">iya</string>
+    <string name="no">tidak</string>
+
+    <string name="titlechangepict">Ubah Foto Profil</string>
+    <string name="changepict">Apakah anda ingin mengubah foto profil anda?</string>
 </resources>
