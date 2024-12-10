@@ -53,6 +53,6 @@ Our team was inspired by the significant global impact of cataracts on vision lo
 ## Technology Stack
 - **Android**: Kotlin, Android Jetpack, TensorFlow Lite, Room, Retrofit, CameraX, etc.
 - **Machine Learning**: Python, TensorFlow Lite, Pandas, NumPy, Matplotlib, etc.
-- **Cloud Computing**: Hapi, NodeJs, GCP, etc.
+- **Cloud Computing**: Express.js, NodeJs, GCP, etc.
 
 ---
